@@ -16,3 +16,4 @@ TODO
 
 Licence
 -----------------
+GNU GPL v.3 (http://www.gnugpl.cz/v3/)
