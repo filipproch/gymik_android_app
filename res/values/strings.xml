@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GyMik</string>
+    <string name="action_settings">Nastavení</string>
+    <string name="latestNews">Novinky</string>
+    <string name="latestSupl">Suplování</string>
+    <string-array name="navigation">
+        <item>Aktuality</item>
+        <item>Rozvrh</item>
+        <item>Mapa</item>
+        <item>Bakaláři</item>
+        <item>Moodle</item>
+    </string-array>
+    <string name="prizemi">P</string>
+    <string name="p1patro">1.</string>
+    <string name="p2patro">2.</string>
+    <string name="vestavba">V</string>
+    <string name="pondeli">Po</string>
+    <string name="utery">Út</string>
+    <string name="streda">St</string>
+    <string name="ctvrtek">Čt</string>
+    <string name="patek">Pá</string>
+    <string name="pickClass">Vyberte třídu :</string>
+    <string name="continueString">Pokračovat</string>
+    <string name="firstRun">Instalace</string>
+    <string name="pleaseWait">Prosím vyčkejte</string>
+    <string name="warning">Upozornění</string>
+    <string name="exitDialog1">Opravdu chcete aplikaci ukončit během úvodního nastavení? Tato akce není doporučena.</string>
+	<string name="exitDialog2">V této fázi aplikaci nelze ukončit, prosím vyčkejte na stažení potřebných dat.</string>
+	<string name="noInternetDataDownloadFailed">Stažení dat potřebných pro spuštění se nezdařilo z důvodu nedostupnosti připojení k internetu. Připojte se a zkuste to znovu.</string>
+	<string name="cantDownloadActualDataNoInternet">Nepodařilo se stáhnout aktuální data z důvodu nedostupného připojení k internetu</string>
+	<string name="dialogOk">Ok</string>
+	<string name="dialogExit">Konec</string>
+	<string name="dialogSettings">Nastavení</string>
+	<string name="dialogClose">Zavřít</string>
+	<string name="dialogLink">Odkaz</string>
+	<string name="noInternet">Internet nedostupný, prosím připojte se k internetu</string>
+</resources>

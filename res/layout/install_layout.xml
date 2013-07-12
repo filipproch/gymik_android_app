@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/firstRun"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:id="@+id/firstRunText"/>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#999999"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/delimiterInstall2"
+        android:layout_below="@+id/firstRunText"/>
+    
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+        android:text="@string/pickClass"
+        android:layout_below="@+id/delimiterInstall2"
+        android:id="@+id/pickClassText"/>
+
+    <Spinner 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pickClassText"
+        android:id="@+id/pickClassSpinner"/>
+    
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/pickClassSpinner"
+        android:layout_alignTop="@+id/pickClassSpinner" />
+    
+    <Button 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+        android:id="@+id/installButton"
+        android:layout_alignParentBottom="true"
+        android:text="@string/continueString"/>
+    
+</RelativeLayout>

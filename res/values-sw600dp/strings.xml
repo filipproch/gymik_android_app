@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="prizemi">PŘÍZEMÍ</string>
+    <string name="p1patro">1.PATRO</string>
+    <string name="p2patro">2.PATRO</string>
+    <string name="vestavba">VESTAVBA</string>
+    <string name="pondeli">Pondělí</string>
+    <string name="utery">Úterý</string>
+    <string name="streda">Středa</string>
+    <string name="ctvrtek">Čtvrtek</string>
+    <string name="patek">Pátek</string>
+</resources>

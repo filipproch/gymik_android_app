@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    	<PreferenceCategory
+    	    android:title="Aplikace">
+    	    <Preference
+		        android:title="O Aplikaci"
+				android:key="aboutApp"/>
+    	    <Preference
+		        android:title="Web autora"
+				android:key="authorWeb"/>
+    	</PreferenceCategory>
+    	<PreferenceCategory
+    	    android:title="Třída">
+    	    <Preference
+    	        android:title="Změnit třídu"
+    	        android:key="changeClass"/>
+    	    <Preference
+    	        android:title="Aktualizovat suplování"
+    	        android:key="updateSuplov"/>
+    	    <Preference
+    	        android:title="Aktualizovat rozvrh"
+    	        android:key="updateRozvrh"/>
+    	</PreferenceCategory>
+    	<PreferenceCategory
+            android:title="Mapa">
+            <CheckBoxPreference
+                android:title="Zobrazovat barvy"
+                android:defaultValue="false"
+                android:summary="Zapíná/vypína zobrazení barev tříd na mapě"
+                android:key="mapShowColors" />
+            <Preference
+                android:title="Aktualizovat mapu"
+                android:key="updateMap"
+                android:summary="Aktualizuje mapové podklady"/>
+        </PreferenceCategory>
+        <PreferenceCategory
+            android:title="Bakaláři">
+            <Preference
+	            android:title="Nastavit přihlašování"
+	            android:key="setupBakalari" />
+      	</PreferenceCategory>
+</PreferenceScreen>

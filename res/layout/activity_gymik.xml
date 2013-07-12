@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GymikActivity" 
+  	android:orientation="vertical">
+
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".5">
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#222222"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp"
+            android:padding="8dp"
+            android:text="@string/latestNews"
+            android:id="@+id/latestNews"/>
+        <ListView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+      		android:id="@+id/news_list"
+      		android:layout_below="@+id/latestNews"/>
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".5">
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#222222"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp"
+            android:padding="8dp"
+            android:text="@string/latestSupl"
+            android:id="@+id/latestSupl"/>
+        <ListView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+      		android:id="@+id/supl_list"
+      		android:layout_below="@+id/latestSupl"/>
+    </RelativeLayout>
+
+</LinearLayout>

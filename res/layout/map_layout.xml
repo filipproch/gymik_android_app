@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/tabs_bar"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:background="#333333">
+        <Button 
+           	android:layout_width="match_parent"
+           	android:layout_height="match_parent"
+           	android:text="@string/prizemi"
+           	android:layout_weight="0.25"
+           	android:padding="4dp"
+           	android:background="#555555"
+           	android:textColor="#ffffff"
+           	android:id="@+id/patroSelect0"/>
+        <Button 
+           	android:layout_width="match_parent"
+           	android:layout_height="match_parent"
+           	android:text="@string/p1patro"
+           	android:layout_weight="0.25"
+           	android:padding="4dp"
+           	android:background="#333333"
+           	android:textColor="#ffffff"
+           	android:id="@+id/patroSelect1"/>
+        <Button 
+           	android:layout_width="match_parent"
+           	android:layout_height="match_parent"
+           	android:text="@string/p2patro"
+           	android:layout_weight="0.25"
+           	android:padding="4dp"
+           	android:background="#333333"
+           	android:textColor="#ffffff"
+           	android:id="@+id/patroSelect2"/>
+        <Button 
+           	android:layout_width="match_parent"
+           	android:layout_height="match_parent"
+           	android:text="@string/vestavba"
+           	android:layout_weight="0.25"
+           	android:padding="4dp"
+           	android:background="#333333"
+           	android:textColor="#ffffff"
+           	android:id="@+id/patroSelect3"/>
+    </LinearLayout>
+    <com.jacktech.gymik.MapView 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabs_bar"
+        android:id="@+id/map_view"/>
+
+</RelativeLayout>
