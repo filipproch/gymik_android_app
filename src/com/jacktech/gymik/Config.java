@@ -10,6 +10,10 @@ public class Config {
 	public Config(JSONObject config, DataWorker dataWorker){
 		this.config = config;
 		this.dataWorker = dataWorker;
+		if(Integer.parseInt((String) this.getConfig("configVersion")) != dataWorker.configVersion){
+			this.config = dataWorker.updateConfig(config);
+			dataWorker.writeConfig(config);
+		}
 	}
 	
 	public Config(DataWorker dataWorker){
@@ -17,6 +21,7 @@ public class Config {
 		this.config = dataWorker.getDefaultConfig();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void putConfig(Object config, Object value){
 		this.config.put(config, value);
 	}
@@ -25,6 +30,7 @@ public class Config {
 		return this.config.get(config);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void updateConfig(Object config, Object value){
 		this.config.remove(config);
 		this.config.put(config, value);
