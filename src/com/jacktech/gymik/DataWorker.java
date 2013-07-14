@@ -18,7 +18,7 @@ import android.app.Activity;
 import android.os.Environment;
 
 public class DataWorker {
-	private static final int configVersion = 1;
+	public static final int configVersion = 1;
 	private static String CONFIG_FILE_NAME = "config.data";
 	private static String NEWS_FILE_NAME = "news.data";
 	private static String ROZVRH_FILE_NAME = "rozvrh.data";
@@ -42,6 +42,7 @@ public class DataWorker {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void writeNews(List<RSSFeed> data){
 		if(mExternalStorageWriteable){
 			JSONObject datax = new JSONObject();
@@ -181,12 +182,13 @@ public class DataWorker {
 		}
 	}
 	
+	private static final String[][] defaultConfigValues = new String[][]{{"configVersion",""+configVersion},{"class","-"},{"schoolYear","-"},{"bakUser","-"},{"bakPsw","-"}};
+	
+	@SuppressWarnings("unchecked")
 	public JSONObject getDefaultConfig(){
 		JSONObject config = new JSONObject();
-		config.put("class", "-");
-		config.put("schoolYear", "-");
-		config.put("bakUser", "-");
-		config.put("bakPsw", "-");
+		for(String[] conf : defaultConfigValues)
+			config.put(conf[0], conf[1]);
 		return config;
 	}
 
@@ -194,6 +196,13 @@ public class DataWorker {
 		if(!new File(activity.getExternalFilesDir(null).getAbsolutePath()+"/"+CONFIG_FILE_NAME).exists())
 			return true;
 		return false;
+	}
+
+	public JSONObject updateConfig(JSONObject config) {
+		for(String[] conf : defaultConfigValues)
+			if(config.get(conf[0]) == null)
+				config.put(conf[0], conf[1]);
+		return config;
 	}
 	
 }
