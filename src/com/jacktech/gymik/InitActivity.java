@@ -1,39 +1,20 @@
 package com.jacktech.gymik;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
+import java.util.Calendar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 public class InitActivity extends Activity{
 
 	private TextView statusText;
 	private DataWorker dw;
-	private int stage = 0;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -49,7 +30,22 @@ public class InitActivity extends Activity{
 				showNoConnectionDialog();
 			}
 		}else{
-			startActivity(new Intent(this,GymikActivity.class));
+			Calendar c = Calendar.getInstance();
+			String schoolYear = null;
+			if(c.get(Calendar.MONTH)<9){
+				schoolYear = String.valueOf(c.get(Calendar.YEAR)-1).substring(2)+"/"+String.valueOf(c.get(Calendar.YEAR)).substring(2);
+			}else
+				schoolYear = String.valueOf(c.get(Calendar.YEAR)).substring(2)+"/"+String.valueOf(c.get(Calendar.YEAR)+1).substring(2);
+			Config config = new Config(dw.getConfig(),dw);
+			if(config.getConfig("schoolYear").equals(schoolYear))
+				startActivity(new Intent(this,GymikActivity.class));
+			else{
+				if(isOnline(this)){
+					startActivity(new Intent(InitActivity.this,InstallActivity.class));
+				}else{
+					showNoConnectionDialog();
+				}
+			}
 		}
 	}
 	
