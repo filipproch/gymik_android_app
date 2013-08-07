@@ -913,8 +913,10 @@ containing a value of this type.
         public static final int abs__textfield_searchview_right_holo_dark=0x7f02006d;
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
         public static final int abs__toast_frame=0x7f02006f;
-        public static final int ic_launcher=0x7f020070;
-        public static final int logo=0x7f020071;
+        public static final int drawer_shadow=0x7f020070;
+        public static final int ic_drawer=0x7f020071;
+        public static final int ic_launcher=0x7f020072;
+        public static final int logo=0x7f020073;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040020;
@@ -956,22 +958,25 @@ containing a value of this type.
         public static final int abs__textButton=0x7f040013;
         public static final int abs__title=0x7f04001b;
         public static final int abs__up=0x7f04000b;
-        public static final int action_settings=0x7f040052;
+        public static final int action_settings=0x7f040055;
         public static final int bakalariToolbar=0x7f040037;
         public static final int bakalariWebView=0x7f040036;
+        public static final int content_frame=0x7f040047;
         public static final int delimiterInstall2=0x7f04003b;
         public static final int disableHome=0x7f040009;
+        public static final int drawer_layout=0x7f040046;
         public static final int edit_query=0x7f040026;
         public static final int firstRunText=0x7f04003a;
         public static final int homeAsUp=0x7f040006;
         public static final int installButton=0x7f04003f;
         public static final int latestNews=0x7f040032;
         public static final int latestSupl=0x7f040034;
+        public static final int left_drawer=0x7f040048;
         public static final int listMode=0x7f040002;
         public static final int map_view=0x7f040045;
-        public static final int newsDialogText=0x7f040046;
-        public static final int news_item_text=0x7f040048;
-        public static final int news_item_title=0x7f040047;
+        public static final int newsDialogText=0x7f040049;
+        public static final int news_item_text=0x7f04004b;
+        public static final int news_item_title=0x7f04004a;
         public static final int news_list=0x7f040033;
         public static final int normal=0x7f040001;
         public static final int patroSelect0=0x7f040041;
@@ -982,20 +987,20 @@ containing a value of this type.
         public static final int pickClassText=0x7f04003c;
         public static final int progressBar1=0x7f04003e;
         public static final int progressInstall=0x7f040039;
-        public static final int rozvrhCt=0x7f04004d;
-        public static final int rozvrhList=0x7f04004f;
-        public static final int rozvrhPa=0x7f04004e;
-        public static final int rozvrhPo=0x7f04004a;
-        public static final int rozvrhSt=0x7f04004c;
-        public static final int rozvrhUt=0x7f04004b;
-        public static final int rozvrh_tabs=0x7f040049;
+        public static final int rozvrhCt=0x7f040050;
+        public static final int rozvrhList=0x7f040052;
+        public static final int rozvrhPa=0x7f040051;
+        public static final int rozvrhPo=0x7f04004d;
+        public static final int rozvrhSt=0x7f04004f;
+        public static final int rozvrhUt=0x7f04004e;
+        public static final int rozvrh_tabs=0x7f04004c;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
         public static final int statusText=0x7f040038;
         public static final int supl_list=0x7f040035;
-        public static final int suplov_item_day=0x7f040050;
-        public static final int suplov_item_detail=0x7f040051;
+        public static final int suplov_item_day=0x7f040053;
+        public static final int suplov_item_detail=0x7f040054;
         public static final int tabMode=0x7f040003;
         public static final int tabs_bar=0x7f040040;
         public static final int useLogo=0x7f040004;
@@ -1028,17 +1033,19 @@ containing a value of this type.
         public static final int abs__simple_dropdown_hint=0x7f030014;
         public static final int activity_gymik=0x7f030015;
         public static final int bakalari_layout=0x7f030016;
-        public static final int init_layout=0x7f030017;
-        public static final int install_download_layout=0x7f030018;
-        public static final int install_layout=0x7f030019;
-        public static final int map_layout=0x7f03001a;
-        public static final int news_dialog=0x7f03001b;
-        public static final int news_item=0x7f03001c;
-        public static final int rozvrh_layout=0x7f03001d;
-        public static final int settings_layout=0x7f03001e;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001f;
-        public static final int sherlock_spinner_item=0x7f030020;
-        public static final int suplov_item=0x7f030021;
+        public static final int drawer_list_item=0x7f030017;
+        public static final int init_layout=0x7f030018;
+        public static final int install_download_layout=0x7f030019;
+        public static final int install_layout=0x7f03001a;
+        public static final int map_layout=0x7f03001b;
+        public static final int navigation_layout=0x7f03001c;
+        public static final int news_dialog=0x7f03001d;
+        public static final int news_item=0x7f03001e;
+        public static final int rozvrh_layout=0x7f03001f;
+        public static final int settings_layout=0x7f030020;
+        public static final int sherlock_spinner_dropdown_item=0x7f030021;
+        public static final int sherlock_spinner_item=0x7f030022;
+        public static final int suplov_item=0x7f030023;
     }
     public static final class menu {
         public static final int gymik=0x7f0c0000;
@@ -1085,39 +1092,37 @@ containing a value of this type.
         public static final int abs__shareactionprovider_share_with_application=0x7f090007;
         public static final int action_settings=0x7f09000e;
         public static final int app_name=0x7f09000d;
-        public static final int cantDownloadActualDataNoInternet=0x7f090022;
-        public static final int continueString=0x7f09001b;
-        public static final int ctvrtek=0x7f090018;
-        public static final int dialogClose=0x7f090026;
-        public static final int dialogExit=0x7f090024;
-        public static final int dialogLink=0x7f090027;
-        public static final int dialogOk=0x7f090023;
-        public static final int dialogSettings=0x7f090025;
-        public static final int exitDialog1=0x7f09001f;
-        public static final int exitDialog2=0x7f090020;
-        public static final int firstRun=0x7f09001c;
+        public static final int cantDownloadActualDataNoInternet=0x7f090024;
+        public static final int continueString=0x7f09001d;
+        public static final int ctvrtek=0x7f09001a;
+        public static final int dialogClose=0x7f090028;
+        public static final int dialogExit=0x7f090026;
+        public static final int dialogLink=0x7f090029;
+        public static final int dialogOk=0x7f090025;
+        public static final int dialogSettings=0x7f090027;
+        public static final int drawer_close=0x7f090012;
+        public static final int drawer_open=0x7f090011;
+        public static final int exitDialog1=0x7f090021;
+        public static final int exitDialog2=0x7f090022;
+        public static final int firstRun=0x7f09001e;
         public static final int latestNews=0x7f09000f;
         public static final int latestSupl=0x7f090010;
-        public static final int noInternet=0x7f090028;
-        public static final int noInternetDataDownloadFailed=0x7f090021;
-        public static final int p1patro=0x7f090012;
-        public static final int p2patro=0x7f090013;
-        public static final int patek=0x7f090019;
-        public static final int pickClass=0x7f09001a;
-        public static final int pleaseWait=0x7f09001d;
-        public static final int pondeli=0x7f090015;
-        public static final int prizemi=0x7f090011;
-        public static final int streda=0x7f090017;
-        public static final int utery=0x7f090016;
-        public static final int vestavba=0x7f090014;
-        public static final int warning=0x7f09001e;
+        public static final int noInternet=0x7f09002a;
+        public static final int noInternetDataDownloadFailed=0x7f090023;
+        public static final int p1patro=0x7f090014;
+        public static final int p2patro=0x7f090015;
+        public static final int patek=0x7f09001b;
+        public static final int pickClass=0x7f09001c;
+        public static final int pleaseWait=0x7f09001f;
+        public static final int pondeli=0x7f090017;
+        public static final int prizemi=0x7f090013;
+        public static final int streda=0x7f090019;
+        public static final int utery=0x7f090018;
+        public static final int vestavba=0x7f090016;
+        public static final int warning=0x7f090020;
     }
     public static final class style {
         /** 
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    
-
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     
@@ -1130,9 +1135,6 @@ containing a value of this type.
  API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f0a0059;
-        /**  Application theme. 
-         */
-        public static final int AppTheme=0x7f0a005a;
         public static final int Sherlock___TextAppearance_Small=0x7f0a0046;
         public static final int Sherlock___Theme=0x7f0a0051;
         public static final int Sherlock___Theme_DarkActionBar=0x7f0a0053;

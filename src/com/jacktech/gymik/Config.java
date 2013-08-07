@@ -39,4 +39,8 @@ public class Config {
 	public void writeConfig(){
 		dataWorker.writeConfig(config);
 	}
+
+	public void reloadConfig() {
+		this.config = dataWorker.getConfig();
+	}
 }

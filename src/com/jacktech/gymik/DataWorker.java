@@ -18,7 +18,7 @@ import android.app.Activity;
 import android.os.Environment;
 
 public class DataWorker {
-	public static final int configVersion = 1;
+	public static final int configVersion = 2;
 	private static String CONFIG_FILE_NAME = "config.data";
 	private static String NEWS_FILE_NAME = "news.data";
 	private static String ROZVRH_FILE_NAME = "rozvrh.data";
@@ -172,7 +172,8 @@ public class DataWorker {
 				reader.close();
 				return data;
 			} catch (IOException e) {
-				return null;
+				writeConfig(getDefaultConfig());
+				return getDefaultConfig();
 			} catch (ParseException e) {
 				return null;
 			}
@@ -182,7 +183,7 @@ public class DataWorker {
 		}
 	}
 	
-	private static final String[][] defaultConfigValues = new String[][]{{"configVersion",""+configVersion},{"class","-"},{"schoolYear","-"},{"bakUser","-"},{"bakPsw","-"}};
+	private static final String[][] defaultConfigValues = new String[][]{{"configVersion",""+configVersion},{"class","-"},{"schoolYear","-"},{"bakUser","-"},{"bakPsw","-"},{"lastSuplov","-"},{"showMapColors","true"}};
 	
 	@SuppressWarnings("unchecked")
 	public JSONObject getDefaultConfig(){

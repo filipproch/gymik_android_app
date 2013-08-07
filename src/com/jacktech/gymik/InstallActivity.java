@@ -140,6 +140,7 @@ public class InstallActivity extends SherlockActivity{
 		@Override
 		protected void onPostExecute(Object[] data){
 			if(data != null){
+				config.updateConfig("lastSuplov", System.currentTimeMillis()+"");
 				config.writeConfig();
 				dw.writeSuplovani((JSONObject)data[0]);
 				//dw.writeRozvrh(data[1]);

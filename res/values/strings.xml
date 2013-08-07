@@ -12,6 +12,8 @@
         <item>Bakaláři</item>
         <item>Moodle</item>
     </string-array>
+    <string name="drawer_open">Otevřít navigaci</string>
+    <string name="drawer_close">Zavřít navigaci</string>
     <string name="prizemi">P</string>
     <string name="p1patro">1.</string>
     <string name="p2patro">2.</string>

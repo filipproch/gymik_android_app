@@ -32,7 +32,8 @@ private static final int INVALID_POINTER_ID = -1;
     private float mLastTouchX;
     private float mLastTouchY;
     private int mActivePointerId = INVALID_POINTER_ID;
-
+    private boolean showColors = true;
+    
     private ScaleGestureDetector mScaleDetector;
     private float mScaleFactor = 1.f;
     
@@ -73,6 +74,10 @@ private static final int INVALID_POINTER_ID = -1;
     	readMap();
     	loadMap();
     	super.invalidate();
+    }
+    
+    public void setShowColors(boolean show){
+    	this.showColors = show;
     }
     
     private void readMap(){
@@ -207,10 +212,12 @@ private static final int INVALID_POINTER_ID = -1;
         	canvas.drawLine(l.a.x*coordsScaleFactor, l.a.y*coordsScaleFactor, l.b.x*coordsScaleFactor, l.b.y*coordsScaleFactor, paint);
         }
         
-        for(Room r : drawRooms){
-        	paint.setColor(Color.parseColor("#ff"+r.r+r.g+r.b));
-        	paint.setStyle(Style.FILL);
-        	canvas.drawRect(r.p.x*coordsScaleFactor,r.p.y*coordsScaleFactor,r.p.x*coordsScaleFactor+r.w*coordsScaleFactor,r.p.y*coordsScaleFactor+r.h*coordsScaleFactor, paint);
+        if(showColors){
+	        for(Room r : drawRooms){
+	        	paint.setColor(Color.parseColor("#ff"+r.r+r.g+r.b));
+	        	paint.setStyle(Style.FILL);
+	        	canvas.drawRect(r.p.x*coordsScaleFactor,r.p.y*coordsScaleFactor,r.p.x*coordsScaleFactor+r.w*coordsScaleFactor,r.p.y*coordsScaleFactor+r.h*coordsScaleFactor, paint);
+	        }
         }
         paint.setStyle(Style.STROKE);
         paint.setColor(Color.BLACK);
