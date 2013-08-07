@@ -11,7 +11,7 @@ TODO
 - ~~novinky z RSS kanalu skoly~~
 - automaticke aktualizace novinek/suplovani
 - rozvrh (chybi script na serveru)
-- funkcni nastaveni(zatim funguji jen nektere polozky)
+- ~~funkcni nastaveni~~
 - widget
 
 Licence
