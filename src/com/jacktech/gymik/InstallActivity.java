@@ -121,12 +121,20 @@ public class InstallActivity extends SherlockActivity{
 				URLConnection con1 = suplovUrl.openConnection();
 				BufferedReader reader = new BufferedReader(new InputStreamReader(con1.getInputStream()));
 				data[0] = (JSONObject) parser.parse(reader);
+				reader.close();
 				//stahovani rozvrhu
 				data[1] = null;//zatim neimplementovano
+				//stahovani map
+				for(int i = 0;i<4;i++){
+					URL mapUrl = new URL("http://gymik.jacktech.cz/genmap.php?floor="+i+"&output=json");
+					con1 = mapUrl.openConnection();
+					reader = new BufferedReader(new InputStreamReader(con1.getInputStream()));
+					dw.writeMap((JSONObject)parser.parse(reader), i);
+					reader.close();
+				}
 				//stahovani novinek
 				RSSParser rssParser = new RSSParser("http://mikulasske.cz/index.php?option=com_content&view=featured&format=feed&type=rss");
 				data[2] = rssParser.parse();
-				reader.close();
 				return data;
 			}catch(IOException e){
 				Log.i("DEBUG", e.getLocalizedMessage());

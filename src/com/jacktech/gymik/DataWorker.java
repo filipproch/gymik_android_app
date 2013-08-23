@@ -15,6 +15,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Environment;
 
 public class DataWorker {
@@ -23,12 +24,13 @@ public class DataWorker {
 	private static String NEWS_FILE_NAME = "news.data";
 	private static String ROZVRH_FILE_NAME = "rozvrh.data";
 	private static String SUPLOV_FILE_NAME = "suplov.data";
-	private Activity activity;
+	private static String MAP_FOLDER = "map/";
+	private Context activity;
 
-	private boolean mExternalStorageAvailable = false;
-	private boolean mExternalStorageWriteable = false;
+	public boolean mExternalStorageAvailable = false;
+	public boolean mExternalStorageWriteable = false;
 	
-	public DataWorker(Activity activity){
+	public DataWorker(Context activity){
 		this.activity = activity;
 		String state = Environment.getExternalStorageState();
 
@@ -39,6 +41,39 @@ public class DataWorker {
 		    mExternalStorageWriteable = false;
 		} else {
 		    mExternalStorageAvailable = mExternalStorageWriteable = false;
+		}
+	}
+	
+	public void writeMap(JSONObject object,int floor){
+		if(mExternalStorageWriteable){
+			File dataDir = activity.getExternalFilesDir(null);
+			new File(dataDir.getAbsolutePath()+"/map/").mkdir();
+			try {
+				FileWriter writer = new FileWriter(dataDir.getAbsolutePath()+"/"+MAP_FOLDER+"map_"+floor+".dat");
+				object.writeJSONString(writer);
+				writer.close();
+			} catch (IOException e) {
+			}
+		}
+	}
+	
+	public JSONObject getMap(int floor){
+		if(mExternalStorageAvailable){
+			File dataDir = activity.getExternalFilesDir(null);
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(dataDir.getAbsolutePath()+"/"+MAP_FOLDER+"map_"+floor+".dat"));
+				JSONParser parser = new JSONParser();
+				JSONObject data = (JSONObject) parser.parse(reader);
+				reader.close();
+				return data;
+			} catch (IOException e) {
+				return null;
+			} catch (ParseException e) {
+				return null;
+			}
+			
+		}else{
+			return null;
 		}
 	}
 	

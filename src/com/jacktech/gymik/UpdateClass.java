@@ -32,6 +32,10 @@ public class UpdateClass {
 		new SuplovDownloader().execute();
 	}
 	
+	public void downloadMap() {
+		new MapDownloader().execute();	
+	}
+	
 	private class SuplovDownloader extends AsyncTask<Void, Void, Object[]>{
 
 		@Override
@@ -68,6 +72,40 @@ public class UpdateClass {
 		}
 		
 	}
+	
+	private class MapDownloader extends AsyncTask<Void, Void, Boolean>{
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try{
+				JSONParser parser = new JSONParser();
+				for(int i = 0;i<4;i++){
+					URL mapUrl = new URL("http://gymik.jacktech.cz/genmap.php?floor="+i+"&output=json");
+					URLConnection con1 = mapUrl.openConnection();
+					BufferedReader reader = new BufferedReader(new InputStreamReader(con1.getInputStream()));
+					dw.writeMap((JSONObject)parser.parse(reader), i);
+					reader.close();
+				}
+				return true;
+			}catch(IOException e){
+				Log.i("DEBUG", e.getLocalizedMessage());
+				return false;
+			} catch (ParseException e) {
+				Log.i("DEBUG", e.getLocalizedMessage()+"//"+e.getPosition());
+				return false;
+			}
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean data){
+			if(data != false){
+				showDownloadSuccesfull("map");
+			}else{
+				showDownloadError("map");
+			}
+		}
+		
+	}
 
 	public void showDownloadError(String what) {
 		Toast.makeText(context, "Stahování "+what+" selhalo", Toast.LENGTH_LONG).show();
@@ -75,6 +113,6 @@ public class UpdateClass {
 	
 	public void showDownloadSuccesfull(String what) {
 		Toast.makeText(context, "Stahování "+what+" dokončeno", Toast.LENGTH_LONG).show();
-	} 
+	}
 	
 }

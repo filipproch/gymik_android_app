@@ -1,9 +1,10 @@
 package com.jacktech.gymik;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -11,14 +12,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.jacktech.gymik.Adapters.NavigationAdapter;
 import com.jacktech.gymik.fragments.AktualityFragment;
 import com.jacktech.gymik.fragments.BakalariFragment;
 import com.jacktech.gymik.fragments.MapFragment;
@@ -30,19 +29,19 @@ public class GymikActivity extends AbstractActivity {
 	private boolean settingsOpen = false;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
-	private String[] mNavigationArray;
+	private List<NavigationItem> mNavigationArray;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
+		//setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
 		this.setContentView(R.layout.navigation_layout);
 		
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        mNavigationArray = getResources().getStringArray(R.array.navigation);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item, mNavigationArray));
+        mNavigationArray = loadNavigation();
+        mDrawerList.setAdapter(new NavigationAdapter(this,R.layout.drawer_list_item, mNavigationArray));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
@@ -74,6 +73,16 @@ public class GymikActivity extends AbstractActivity {
 		updateScreen(0);
 	}
 	
+	private List<NavigationItem> loadNavigation() {
+		ArrayList<NavigationItem> retList = new ArrayList<NavigationItem>();
+		retList.add(new NavigationItem(R.drawable.ic_news, "Aktuality"));
+		retList.add(new NavigationItem(R.drawable.ic_rozvrh,"Rozvrh"));
+		retList.add(new NavigationItem(R.drawable.ic_map, "Mapa školy"));
+		retList.add(new NavigationItem(0, "Bakaláři"));
+		retList.add(new NavigationItem(0, "Moodle"));
+		return retList;
+	}
+
 	public void updateScreen(int screen){
 		Fragment fragment = null;
 		switch(screen){
@@ -98,32 +107,10 @@ public class GymikActivity extends AbstractActivity {
 	                   .replace(R.id.content_frame, fragment)
 	                   .commit();
 	    mDrawerList.setItemChecked(screen, true);
-        getSupportActionBar().setTitle(mNavigationArray[screen]);
+        getSupportActionBar().setTitle(mNavigationArray.get(screen).text);
         mDrawerLayout.closeDrawer(mDrawerList);
 	}
 
-	class NavigationAdapter extends ArrayAdapter<String>{
-		
-		public NavigationAdapter(Context context, int textViewResourceId,
-				String[] objects) {
-			super(context, textViewResourceId, objects);
-		}
-
-		@Override
-		public View getView(int pos, View view, ViewGroup viewGroup) {
-			TextView text = (TextView) super.getView(pos, view, viewGroup);
-	        text.setTextColor(Color.WHITE);
-	        return text;
-	    }
-		
-		@Override
-		public View getDropDownView(int pos, View view, ViewGroup viewGroup) {
-			TextView text = (TextView) super.getView(pos, view, viewGroup);
-	        text.setTextColor(Color.WHITE);
-	        return text;
-	    }	
-	}
-	
 	@Override
 	public void onResume(){
 		super.onResume();

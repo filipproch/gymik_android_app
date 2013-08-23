@@ -10,7 +10,7 @@ public class Config {
 	public Config(JSONObject config, DataWorker dataWorker){
 		this.config = config;
 		this.dataWorker = dataWorker;
-		if(Integer.parseInt((String) this.getConfig("configVersion")) != dataWorker.configVersion){
+		if(Integer.parseInt((String) this.getConfig("configVersion")) != DataWorker.configVersion){
 			this.config = dataWorker.updateConfig(config);
 			dataWorker.writeConfig(config);
 		}

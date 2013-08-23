@@ -103,6 +103,16 @@ public class SettingsActivity extends SherlockPreferenceActivity{
 			}
 		});
 		
+		Preference updateMap = (Preference) findPreference("updateMap");
+		updateMap.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				updater.downloadMap();
+				return true;
+			}
+		});
+		
 		CheckBoxPreference mapShowColors = (CheckBoxPreference) findPreference("mapShowColors");
 		mapShowColors.setChecked(Boolean.parseBoolean((String) config.getConfig("showMapColors")));
 		mapShowColors.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {

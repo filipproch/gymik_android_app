@@ -17,6 +17,33 @@ import android.widget.TextView;
 
 public class Adapters {
 
+	public static class NavigationAdapter extends ArrayAdapter<NavigationItem>{
+
+		private List<NavigationItem> items;
+		
+		public NavigationAdapter(Context context, int textViewResourceId, List<NavigationItem> list) {
+			super(context, textViewResourceId, list);
+			this.items = list;
+		}
+		
+		@Override
+		public View getView(int position, View convertedView, ViewGroup group){
+			View conv = convertedView;
+			if(conv == null){
+				LayoutInflater inflater = LayoutInflater.from(this.getContext());
+				conv = inflater.inflate(R.layout.drawer_list_item, null);
+			}
+			
+			NavigationItem listElement = items.get(position);
+			if(listElement != null){
+				TextView text = (TextView) conv.findViewById(R.id.drawer_item_text);
+				text.setText(listElement.text);
+				text.setCompoundDrawablesWithIntrinsicBounds(listElement.drawable, 0, 0, 0);
+			}
+			return conv;	
+		}
+	}
+	
 	public static class NewsAdapter extends ArrayAdapter<JSONObject>{
 
 		private List<JSONObject> items;
@@ -90,22 +117,6 @@ public class Adapters {
 			return v;
 		}
 
-		private String getStatusString(Object object) {
-			if(object instanceof Long){
-				switch(((Long)object).intValue()){
-					case 0: return "suplovaná";
-					case 1: return "odpadá";
-					case 2: return "změna";
-					case 3: return "zrušena";
-					case 4: return "exkurze";
-					case 5: return "jiná akce";
-					case 6: return "spojí";
-					case 7: return "výlet";
-					case 8: return "přesun";
-				}
-			}
-			return null;
-		}
 
 		private String getDayFromDate(String object) {
 			Calendar c = Calendar.getInstance();
@@ -125,4 +136,20 @@ public class Adapters {
 		
 	}
 	
+	public static String getStatusString(Object object) {
+		if(object instanceof Long){
+			switch(((Long)object).intValue()){
+				case 0: return "suplovaná";
+				case 1: return "odpadá";
+				case 2: return "změna";
+				case 3: return "zrušena";
+				case 4: return "exkurze";
+				case 5: return "jiná akce";
+				case 6: return "spojí";
+				case 7: return "výlet";
+				case 8: return "přesun";
+			}
+		}
+		return null;
+	}
 }

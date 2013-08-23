@@ -40,9 +40,10 @@ private static final int INVALID_POINTER_ID = -1;
     private int currentLevel = 0;
     private JSONParser parser = new JSONParser();
     private JSONObject map;
-    private AssetManager assetManager;
     private Paint paint;
     private int coordsScaleFactor = 20;
+    
+    private DataWorker dataWorker;
     
     private ArrayList<Line> drawLines;
     private ArrayList<Text> drawTexts;
@@ -59,7 +60,7 @@ private static final int INVALID_POINTER_ID = -1;
     public MapView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
-        assetManager = ((Activity) context).getAssets();
+        dataWorker = new DataWorker(context);
         paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setStyle(Style.STROKE);
@@ -81,22 +82,8 @@ private static final int INVALID_POINTER_ID = -1;
     }
     
     private void readMap(){
-    	InputStream input;
-        try {
-        	input = assetManager.open("map_floor"+currentLevel+".m");
-            int size = input.available();
-            byte[] buffer = new byte[size];
-            input.read(buffer);
-            input.close();
-            String data = new String(buffer);
-            map = (JSONObject) parser.parse(data);
-            Log.i("DEBUG", "Map loaded");
-        } catch (IOException e) {
-        	Log.i("DEBUG", "Map opening failed, "+e.getLocalizedMessage());
-        } catch (ParseException e) {
-			Log.i("DEBUG","Unable to parse map file, "+e.getMessage()+" // "+e.getPosition());
-			e.printStackTrace();
-		}
+    	map = dataWorker.getMap(currentLevel);
+		Log.i("DEBUG", "Map loaded");
     }
     
     private void loadMap(){

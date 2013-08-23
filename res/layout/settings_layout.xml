@@ -18,6 +18,7 @@
     	        android:title="Aktualizovat suplování"
     	        android:key="updateSuplov"/>
     	    <Preference
+    	        android:enabled="false"
     	        android:title="Aktualizovat rozvrh"
     	        android:key="updateRozvrh"/>
     	</PreferenceCategory>
@@ -36,6 +37,7 @@
         <PreferenceCategory
             android:title="Bakaláři">
             <Preference
+                android:enabled="false"
 	            android:title="Nastavit přihlašování"
 	            android:key="setupBakalari" />
       	</PreferenceCategory>

@@ -99,7 +99,22 @@ public class AktualityFragment extends SherlockFragment{
 					int pos, long arg3) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 				JSONObject supl = suplovList.get(pos);
-				builder.setTitle("");
+				View main = getActivity().getLayoutInflater().inflate(R.layout.suplov_dialog, null);
+				((TextView)main.findViewById(R.id.sDialogHodina)).setText((String) supl.get("hodina")+"h");
+				((TextView)main.findViewById(R.id.sDialogPredmet)).setText((String) supl.get("predmet"));
+				((TextView)main.findViewById(R.id.sDialogStav)).setText(Adapters.getStatusString(supl.get("status")));
+				((TextView)main.findViewById(R.id.sDialogSkupina)).setText((String) supl.get("skupina"));
+				((TextView)main.findViewById(R.id.sDialogMistnost)).setText((String) supl.get("mistnost"));
+				((TextView)main.findViewById(R.id.sDialogNahrazuje)).setText((String)supl.get("nahrazuje"));
+				builder.setView(main);
+				builder.setTitle(supl.get("predmet")+" - "+Adapters.getStatusString(supl.get("status")));
+				builder.setPositiveButton(R.string.dialogClose, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
 				builder.show();
 			}
 		});

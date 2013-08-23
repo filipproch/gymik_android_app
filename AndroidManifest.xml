@@ -16,7 +16,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Sherlock.__Theme" >
+        android:theme="@style/Sherlock.__Theme.DarkActionBar" >
         <activity 
             android:name="com.jacktech.gymik.InitActivity"
             android:label="@string/app_name"
@@ -38,6 +38,21 @@
             android:label="@string/app_name" 
             android:screenOrientation="portrait">
         </activity>
+        <activity 
+            android:name="com.jacktech.gymik.SuplovDetailsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+        </activity>
+        <receiver 
+            android:name="com.jacktech.gymik.widget.SuplovWidgetProvider"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/suplov_widget_provider"/>
+        </receiver>
+        <service android:name="com.jacktech.gymik.widget.SuplovWidgetService"
+             android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>

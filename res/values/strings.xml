@@ -5,13 +5,6 @@
     <string name="action_settings">Nastavení</string>
     <string name="latestNews">Novinky</string>
     <string name="latestSupl">Suplování</string>
-    <string-array name="navigation">
-        <item>Aktuality</item>
-        <item>Rozvrh</item>
-        <item>Mapa</item>
-        <item>Bakaláři</item>
-        <item>Moodle</item>
-    </string-array>
     <string name="drawer_open">Otevřít navigaci</string>
     <string name="drawer_close">Zavřít navigaci</string>
     <string name="prizemi">P</string>
@@ -38,4 +31,11 @@
 	<string name="dialogClose">Zavřít</string>
 	<string name="dialogLink">Odkaz</string>
 	<string name="noInternet">Internet nedostupný, prosím připojte se k internetu</string>
+	<string name="noStorage">Není dostupné úložiště. Aplikace ke svému spuštění potřebuje externí úložiště(SD kartu), které je nyní nedostupné.</string>
+	<string name="sDialogHodina">Hodina : </string>
+	<string name="sDialogPredmet">Předmět : </string>
+	<string name="sDialogStav">Stav : </string>
+	<string name="sDialogSkupina">Skupina : </string>
+	<string name="sDialogMistnost">Místnost : </string>
+	<string name="sDialogNahrazuje">Nahrazuje : </string>
 </resources>
