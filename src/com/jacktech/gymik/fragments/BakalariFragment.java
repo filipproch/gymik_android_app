@@ -20,10 +20,8 @@ public class BakalariFragment extends SherlockFragment{
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.bakalari_layout,container, false);
-		WebView web = (WebView) rootView.findViewById(R.id.bakalariWebView);
-		web.loadUrl("https://bakalari.mikulasske.cz/login.aspx");
-		return rootView;
+		
+		return null;
 	}
 	
 }

@@ -19,7 +19,7 @@ import android.content.Context;
 import android.os.Environment;
 
 public class DataWorker {
-	public static final int configVersion = 2;
+	public static final int configVersion = 3;
 	private static String CONFIG_FILE_NAME = "config.data";
 	private static String NEWS_FILE_NAME = "news.data";
 	private static String ROZVRH_FILE_NAME = "rozvrh.data";
@@ -218,7 +218,7 @@ public class DataWorker {
 		}
 	}
 	
-	private static final String[][] defaultConfigValues = new String[][]{{"configVersion",""+configVersion},{"class","-"},{"schoolYear","-"},{"bakUser","-"},{"bakPsw","-"},{"lastSuplov","-"},{"showMapColors","true"}};
+	private static final String[][] defaultConfigValues = new String[][]{{"configVersion",""+configVersion},{"class","-"},{"schoolYear","-"},{"bakUser","-"},{"bakPsw","-"},{"lastSuplov","-"},{"showMapColors","true"},{"suplovDownloadTime","school"},{"suplovAutoDownload","true"}};
 	
 	@SuppressWarnings("unchecked")
 	public JSONObject getDefaultConfig(){

@@ -13,6 +13,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.google.analytics.tracking.android.EasyTracker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -217,6 +218,18 @@ public class InstallActivity extends SherlockActivity{
 			}
 		});
 		builder.create().show();
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+	    EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+	    EasyTracker.getInstance().activityStop(this);
 	}
 	
 }

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jacktech.gymik"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="4"
+    android:versionName="1.1" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     
     <application
         android:allowBackup="true"
@@ -53,6 +54,12 @@
         </receiver>
         <service android:name="com.jacktech.gymik.widget.SuplovWidgetService"
              android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service android:name="com.jacktech.gymik.server.BackgroundService"></service>
+        <receiver android:name="com.jacktech.gymik.server.MyBroadcastReceiver">  
+		    <intent-filter>  
+		        <action android:name="android.intent.action.BOOT_COMPLETED" />  
+		    </intent-filter>  
+		</receiver>
     </application>
 
 </manifest>

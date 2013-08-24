@@ -10,6 +10,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -17,6 +18,7 @@ import android.view.Gravity;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class SettingsActivity extends SherlockPreferenceActivity{
 
@@ -49,7 +51,7 @@ public class SettingsActivity extends SherlockPreferenceActivity{
 				}
 				
 				AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
-		        builder.setMessage(SettingsActivity.this.getString(R.string.app_name)+" v"+version+" ©"+year+"\nvytvořil jacktech24")
+		        builder.setMessage(SettingsActivity.this.getString(R.string.app_name)+" v"+version+" ©"+year+"\nvytvořil Filip Procházka")
 		               .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 		                   public void onClick(DialogInterface dialog, int id) {
 		                       dialog.dismiss();
@@ -123,12 +125,60 @@ public class SettingsActivity extends SherlockPreferenceActivity{
 				return true;
 			}
 		});
+		
+		CheckBoxPreference updateSuplovAuto = (CheckBoxPreference) findPreference("updateSuplovAuto");
+		updateSuplovAuto.setChecked(Boolean.parseBoolean((String) config.getConfig("suplovAutoDownload")));
+		updateSuplovAuto.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				config.updateConfig("suplovAutoDownload", newValue.toString());
+				return true;
+			}
+		});
+		
+		final ListPreference updateSuplovTime = (ListPreference) findPreference("updateSuplovTime");
+		updateSuplovTime.setTitle("Doba stahování ("+getDayTimeName((String) config.getConfig("suplovDownloadTime"))+")");
+		updateSuplovTime.setDefaultValue(config.getConfig("suplovDownloadTime"));
+		updateSuplovTime.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				updateSuplovTime.setTitle("Doba stahování ("+getDayTimeName((String) newValue)+")");
+				config.updateConfig("suplovDownloadTime", newValue);
+				return true;
+			}
+		});
 	}
 	
 	@Override
 	public void onPause(){
 		super.onPause();
 		config.writeConfig();
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+	    EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+	    EasyTracker.getInstance().activityStop(this);
+	}
+	
+	private String getDayTimeName(String value){
+		if(value.equals("midnight"))
+			return "Půlnoc";
+		if(value.equals("school"))
+			return "Kolem 11";
+		if(value.equals("morning"))
+			return "Ráno";
+		if(value.equals("afternoon"))
+			return "Odpoledne";
+		return "";
 	}
 	
 }

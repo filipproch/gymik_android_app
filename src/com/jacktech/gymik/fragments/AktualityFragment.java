@@ -40,7 +40,7 @@ public class AktualityFragment extends SherlockFragment{
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.activity_gymik,container, false);
+		rootView = inflater.inflate(R.layout.news_layout,container, false);
 		GymikActivity ac = (GymikActivity) getActivity();
 		newsList = (List<JSONObject>)ac.dw.getNews().get("news");
 		NewsAdapter newsAdapter = new Adapters.NewsAdapter(getActivity(), R.layout.news_item, newsList);
@@ -90,7 +90,7 @@ public class AktualityFragment extends SherlockFragment{
 			}
 		}
 		SuplovAdapter suplov = new SuplovAdapter(getActivity(), R.layout.suplov_item, suplovList, suplovDays);
-		ListView suplovLV = (ListView) rootView.findViewById(R.id.supl_list);
+		ListView suplovLV = (ListView) rootView.findViewById(R.id.suplov_list_view);
 		suplovLV.setAdapter(suplov);
 		suplovLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

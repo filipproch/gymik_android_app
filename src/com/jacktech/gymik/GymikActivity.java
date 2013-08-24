@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -17,12 +22,15 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Tracker;
 import com.jacktech.gymik.Adapters.NavigationAdapter;
-import com.jacktech.gymik.fragments.AktualityFragment;
-import com.jacktech.gymik.fragments.BakalariFragment;
 import com.jacktech.gymik.fragments.MapFragment;
 import com.jacktech.gymik.fragments.MoodleFragment;
+import com.jacktech.gymik.fragments.NewsFragment;
 import com.jacktech.gymik.fragments.RozvrhFragment;
+import com.jacktech.gymik.fragments.SuplovFragment;
+import com.jacktech.gymik.server.BackgroundService;
 
 public class GymikActivity extends AbstractActivity {
 
@@ -30,12 +38,17 @@ public class GymikActivity extends AbstractActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private List<NavigationItem> mNavigationArray;
+	private Tracker analyticsTracker;
+	private int beforeSelected = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
 		this.setContentView(R.layout.navigation_layout);
+		
+		EasyTracker.getInstance().setContext(this);
+		analyticsTracker = EasyTracker.getTracker();
 		
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -71,13 +84,27 @@ public class GymikActivity extends AbstractActivity {
 		dw = new DataWorker(this);
 		config = new Config(dw.getConfig(),dw);
 		updateScreen(0);
+		
+		if(!backgroundServiceRunning())
+			startService(new Intent(this, BackgroundService.class));
 	}
 	
+	private boolean backgroundServiceRunning() {
+		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+	        if (BackgroundService.class.getName().equals(service.service.getClassName())) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+
 	private List<NavigationItem> loadNavigation() {
 		ArrayList<NavigationItem> retList = new ArrayList<NavigationItem>();
-		retList.add(new NavigationItem(R.drawable.ic_news, "Aktuality"));
+		retList.add(new NavigationItem(R.drawable.ic_news, "Suplování"));
 		retList.add(new NavigationItem(R.drawable.ic_rozvrh,"Rozvrh"));
 		retList.add(new NavigationItem(R.drawable.ic_map, "Mapa školy"));
+		retList.add(new NavigationItem(0, "Novinky"));
 		retList.add(new NavigationItem(0, "Bakaláři"));
 		retList.add(new NavigationItem(0, "Moodle"));
 		return retList;
@@ -88,18 +115,29 @@ public class GymikActivity extends AbstractActivity {
 		switch(screen){
 			case 1:
 				fragment = new RozvrhFragment();
+				analyticsTracker.sendEvent("menu_item", "click", "rozvrh", 1L);
 				break;
 			case 0:
-				fragment = new AktualityFragment();
+				fragment = new SuplovFragment();
+				analyticsTracker.sendEvent("menu_item", "click", "suplov", 1L);
 				break;
 			case 2:
 				fragment = new MapFragment();
+				analyticsTracker.sendEvent("menu_item", "click", "mapa", 1L);
 				break;
 			case 3:
-				fragment = new BakalariFragment();
+				fragment = new NewsFragment();
+				analyticsTracker.sendEvent("menu_item", "click", "news", 1L);
 				break;
 			case 4:
+				//fragment = new BakalariFragment();
+				startBakalariApp();
+				analyticsTracker.sendEvent("menu_item", "click", "bakalari", 1L);
+				return;
+			case 5:
 				fragment = new MoodleFragment();
+				//startMoodleApp();
+				analyticsTracker.sendEvent("menu_item", "click", "moodle", 1L);
 				break;
 		}
 		FragmentManager fragmentManager = getSupportFragmentManager();
@@ -109,6 +147,47 @@ public class GymikActivity extends AbstractActivity {
 	    mDrawerList.setItemChecked(screen, true);
         getSupportActionBar().setTitle(mNavigationArray.get(screen).text);
         mDrawerLayout.closeDrawer(mDrawerList);
+        beforeSelected = screen;
+	}
+
+	private void startBakalariApp() {
+		boolean isInstalled = false;
+		
+		PackageManager pm = getPackageManager();
+		try{
+			pm.getPackageInfo("cz.splichal.bakalari", PackageManager.GET_ACTIVITIES);
+			isInstalled = true;
+		}catch(Exception e){
+			isInstalled = false;
+		}
+		
+		if(isInstalled){
+			Intent i = pm.getLaunchIntentForPackage("cz.splichal.bakalari");
+			startActivity(i);
+		}else{
+			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=cz.splichal.bakalari"));
+			startActivity(i);
+		}
+	}
+	
+	private void startMoodleApp(){
+		boolean isInstalled = false;
+		
+		PackageManager pm = getPackageManager();
+		try{
+			pm.getPackageInfo("com.moodle.moodlemobile", PackageManager.GET_ACTIVITIES);
+			isInstalled = true;
+		}catch(Exception e){
+			isInstalled = false;
+		}
+		
+		if(isInstalled){
+			Intent i = pm.getLaunchIntentForPackage("com.moodle.moodlemobile");
+			startActivity(i);
+		}else{
+			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.moodle.moodlemobile"));
+			startActivity(i);
+		}
 	}
 
 	@Override
@@ -145,6 +224,18 @@ public class GymikActivity extends AbstractActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.gymik, menu);
 		return true;
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+	    EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+	    EasyTracker.getInstance().activityStop(this);
 	}
 
 }

@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -55,6 +54,11 @@
            	android:textColor="#ffffff"
            	android:id="@+id/rozvrhPa"/>
     </LinearLayout>
+    <TextView android:text="Připravuje se"
+        android:textSize="32sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rozvrh_tabs"/>
     <RelativeLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rozvrh_tabs">

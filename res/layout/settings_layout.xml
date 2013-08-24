@@ -15,12 +15,26 @@
     	        android:title="Změnit třídu"
     	        android:key="changeClass"/>
     	    <Preference
-    	        android:title="Aktualizovat suplování"
-    	        android:key="updateSuplov"/>
-    	    <Preference
     	        android:enabled="false"
     	        android:title="Aktualizovat rozvrh"
     	        android:key="updateRozvrh"/>
+    	</PreferenceCategory>
+    	<PreferenceCategory
+    	    android:title="Suplování">
+    	    <Preference
+    	        android:title="Aktualizovat suplování"
+    	        android:key="updateSuplov"/>
+    	    <CheckBoxPreference
+    	        android:title="Stahovat automaticky"
+    	        android:summary="Aktivuje automatické stahování suplování na pozadí"
+    	        android:defaultValue="false"
+    	        android:key="updateSuplovAuto"/>
+    	    <ListPreference
+    	        android:title="Doba stahování"
+    	        android:summary="Určuje kdy během dne se bude stahovat nové suplování"
+    	       	android:entries="@array/dayTimes"
+				android:entryValues="@array/dayTimesValues"
+    	        android:key="updateSuplovTime"/>
     	</PreferenceCategory>
     	<PreferenceCategory
             android:title="Mapa">

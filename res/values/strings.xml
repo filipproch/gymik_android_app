@@ -38,4 +38,18 @@
 	<string name="sDialogSkupina">Skupina : </string>
 	<string name="sDialogMistnost">Místnost : </string>
 	<string name="sDialogNahrazuje">Nahrazuje : </string>
+	
+	<string-array name="dayTimes">
+	    <item>Půlnoc</item>
+	    <item>Ráno</item>
+	    <item>Kolem 11</item>
+	    <item>Odpoledne</item>
+	</string-array>
+	
+	<string-array name="dayTimesValues">
+	    <item>midnight</item>
+	    <item>morning</item>
+	    <item>school</item>
+	    <item>afternoon</item>
+	</string-array>
 </resources>
