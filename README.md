@@ -13,6 +13,8 @@ TODO
 - rozvrh (chybi script na serveru)
 - ~~funkcni nastaveni~~
 - ~~widget~~
+- bakalari - pripravuje se implementace, aktualne odkaz na jinou aplikaci
+- moodle - bude odkaz na oficialni aplikaci moodle
 
 Licence
 -----------------
