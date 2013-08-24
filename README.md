@@ -6,13 +6,13 @@ Android aplikace pro studenty Gymnazia v Plzni, Mikulasske nam. 23. Umoznuje mit
 TODO
 -----------------
 
-- ~~suplovani~~, zatim se stahne pouze pri spusteni/ zmene tridy v nastaveni
+- ~~suplovani~~
 - ~~mapa skoly~~, chybi interaktivita jakou ma webova verze http://gymik.jacktech.cz/map/
 - ~~novinky z RSS kanalu skoly~~
-- automaticke aktualizace novinek/suplovani
+- automaticke aktualizace novinek~~/suplovani~~
 - rozvrh (chybi script na serveru)
 - ~~funkcni nastaveni~~
-- widget
+- ~~widget~~
 
 Licence
 -----------------
