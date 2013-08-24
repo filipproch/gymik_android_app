@@ -9,7 +9,7 @@ TODO
 - ~~suplovani~~
 - ~~mapa skoly~~, chybi interaktivita jakou ma webova verze http://gymik.jacktech.cz/map/
 - ~~novinky z RSS kanalu skoly~~
-- automaticke aktualizace novinek,~~suplovani~~
+- automaticke aktualizace novinek, ~~suplovani~~
 - rozvrh (chybi script na serveru)
 - ~~funkcni nastaveni~~
 - ~~widget~~
