@@ -12,6 +12,8 @@ import java.util.concurrent.ExecutionException;
 
 import org.json.simple.JSONObject;
 
+import com.jacktech.gymik.bakalari.Predmet;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,33 +28,108 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class Adapters {
 
-	public static class NavigationAdapter extends ArrayAdapter<NavigationItem>{
+	public static class NavigationAdapter extends BaseAdapter{
 
 		private List<NavigationItem> items;
+		private Context context;
+		private LayoutInflater layoutInflater;
 		
-		public NavigationAdapter(Context context, int textViewResourceId, List<NavigationItem> list) {
-			super(context, textViewResourceId, list);
+		public NavigationAdapter(Context context, List<NavigationItem> list) {
 			this.items = list;
+			this.context = context;
+			layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
+		
+		@Override
+        public int getItemViewType(int position) {
+            return items.get(position).delimiter ? 1 : 0;
+        }
+		
+		@Override
+        public int getViewTypeCount() {
+            return 2;
+        }
+		
+		@Override
+        public int getCount() {
+            return items.size();
+        }
+ 
+        @Override
+        public NavigationItem getItem(int position) {
+            return items.get(position);
+        }
+ 
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
 		
 		@Override
 		public View getView(int position, View convertedView, ViewGroup group){
 			View conv = convertedView;
 			if(conv == null){
-				LayoutInflater inflater = LayoutInflater.from(this.getContext());
-				conv = inflater.inflate(R.layout.drawer_list_item, null);
+				if(items.get(position).delimiter){
+					conv = layoutInflater.inflate(R.layout.drawer_list_delimiter, null);
+				}else{
+					conv = layoutInflater.inflate(R.layout.drawer_list_item, null);
+				}
 			}
 			
 			NavigationItem listElement = items.get(position);
+			if(listElement != null && !listElement.delimiter){
+				TextView t = (TextView)conv;
+				t.setText(listElement.text);
+				t.setCompoundDrawablesWithIntrinsicBounds(listElement.drawable, 0, 0, 0);
+			}
+			return conv;	
+		}
+	}
+	
+	public static class ZnamkyPredmetyAdapter extends BaseAdapter{
+
+		private List<Predmet> items;
+		private Context context;
+		private LayoutInflater layoutInflater;
+		
+		public ZnamkyPredmetyAdapter(Context context, List<Predmet> list) {
+			this.items = list;
+			this.context = context;
+			layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
+		
+		@Override
+        public int getCount() {
+            return items.size();
+        }
+ 
+        @Override
+        public Predmet getItem(int position) {
+            return items.get(position);
+        }
+ 
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+		
+		@Override
+		public View getView(int position, View convertedView, ViewGroup group){
+			View conv = convertedView;
+			if(conv == null){
+				conv = layoutInflater.inflate(R.layout.znamky_predmet_menu_item, null);
+			}
+			
+			Predmet listElement = items.get(position);
 			if(listElement != null){
-				TextView text = (TextView) conv.findViewById(R.id.drawer_item_text);
-				text.setText(listElement.text);
-				text.setCompoundDrawablesWithIntrinsicBounds(listElement.drawable, 0, 0, 0);
+				//t.setText(listElement.text);
+				//t.setCompoundDrawablesWithIntrinsicBounds(listElement.drawable, 0, 0, 0);
 			}
 			return conv;	
 		}

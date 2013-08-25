@@ -138,10 +138,8 @@ public class InstallActivity extends SherlockActivity{
 				data[2] = rssParser.parse();
 				return data;
 			}catch(IOException e){
-				Log.i("DEBUG", e.getLocalizedMessage());
 				return null;
-			} catch (ParseException e) {
-				Log.i("DEBUG", e.getLocalizedMessage()+"//"+e.getPosition());
+			} catch (Exception e) {
 				return null;
 			}
 		}

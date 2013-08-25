@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -30,6 +31,7 @@ import com.jacktech.gymik.fragments.MoodleFragment;
 import com.jacktech.gymik.fragments.NewsFragment;
 import com.jacktech.gymik.fragments.RozvrhFragment;
 import com.jacktech.gymik.fragments.SuplovFragment;
+import com.jacktech.gymik.fragments.ZnamkyFragment;
 import com.jacktech.gymik.server.BackgroundService;
 
 public class GymikActivity extends AbstractActivity {
@@ -54,7 +56,7 @@ public class GymikActivity extends AbstractActivity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         mNavigationArray = loadNavigation();
-        mDrawerList.setAdapter(new NavigationAdapter(this,R.layout.drawer_list_item, mNavigationArray));
+        mDrawerList.setAdapter(new NavigationAdapter(this,mNavigationArray));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
@@ -105,8 +107,9 @@ public class GymikActivity extends AbstractActivity {
 		retList.add(new NavigationItem(R.drawable.ic_rozvrh,"Rozvrh"));
 		retList.add(new NavigationItem(R.drawable.ic_map, "Mapa školy"));
 		retList.add(new NavigationItem(0, "Novinky"));
-		retList.add(new NavigationItem(0, "Bakaláři"));
 		retList.add(new NavigationItem(0, "Moodle"));
+		retList.add(new NavigationItem());
+		retList.add(new NavigationItem(0, "Moje známky"));
 		return retList;
 	}
 
@@ -129,16 +132,17 @@ public class GymikActivity extends AbstractActivity {
 				fragment = new NewsFragment();
 				analyticsTracker.sendEvent("menu_item", "click", "news", 1L);
 				break;
-			case 4:
-				//fragment = new BakalariFragment();
-				startBakalariApp();
-				analyticsTracker.sendEvent("menu_item", "click", "bakalari", 1L);
+			case 6:
+				fragment = new ZnamkyFragment();
+				analyticsTracker.sendEvent("menu_item", "click", "moje_znamky", 1L);
 				return;
-			case 5:
+			case 4:
 				fragment = new MoodleFragment();
 				//startMoodleApp();
 				analyticsTracker.sendEvent("menu_item", "click", "moodle", 1L);
 				break;
+			default:
+				return;
 		}
 		FragmentManager fragmentManager = getSupportFragmentManager();
 	    fragmentManager.beginTransaction()
@@ -149,28 +153,8 @@ public class GymikActivity extends AbstractActivity {
         mDrawerLayout.closeDrawer(mDrawerList);
         beforeSelected = screen;
 	}
-
-	private void startBakalariApp() {
-		boolean isInstalled = false;
-		
-		PackageManager pm = getPackageManager();
-		try{
-			pm.getPackageInfo("cz.splichal.bakalari", PackageManager.GET_ACTIVITIES);
-			isInstalled = true;
-		}catch(Exception e){
-			isInstalled = false;
-		}
-		
-		if(isInstalled){
-			Intent i = pm.getLaunchIntentForPackage("cz.splichal.bakalari");
-			startActivity(i);
-		}else{
-			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=cz.splichal.bakalari"));
-			startActivity(i);
-		}
-	}
 	
-	private void startMoodleApp(){
+	/*private void startMoodleApp(){
 		boolean isInstalled = false;
 		
 		PackageManager pm = getPackageManager();
@@ -188,7 +172,7 @@ public class GymikActivity extends AbstractActivity {
 			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.moodle.moodlemobile"));
 			startActivity(i);
 		}
-	}
+	}*/
 
 	@Override
 	public void onResume(){
