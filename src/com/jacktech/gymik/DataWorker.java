@@ -19,11 +19,12 @@ import android.content.Context;
 import android.os.Environment;
 
 public class DataWorker {
-	public static final int configVersion = 3;
+	public static final int configVersion = 4;
 	private static String CONFIG_FILE_NAME = "config.data";
 	private static String NEWS_FILE_NAME = "news.data";
 	private static String ROZVRH_FILE_NAME = "rozvrh.data";
 	private static String SUPLOV_FILE_NAME = "suplov.data";
+	private static String JIDLO_FILE_NAME = "jidlo.data";
 	private static String MAP_FOLDER = "map/";
 	private Context activity;
 
@@ -54,6 +55,38 @@ public class DataWorker {
 				writer.close();
 			} catch (IOException e) {
 			}
+		}
+	}
+	
+	public void writeJidlo(JSONObject jidlo){
+		if(mExternalStorageWriteable){
+			File dataDir = activity.getExternalFilesDir(null);
+			try {
+				FileWriter writer = new FileWriter(dataDir.getAbsolutePath()+"/"+JIDLO_FILE_NAME);
+				jidlo.writeJSONString(writer);
+				writer.close();
+			} catch (IOException e) {
+			}
+		}
+	}
+	
+	public JSONObject getJidlo(){
+		if(mExternalStorageAvailable){
+			File dataDir = activity.getExternalFilesDir(null);
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(dataDir.getAbsolutePath()+"/"+JIDLO_FILE_NAME));
+				JSONParser parser = new JSONParser();
+				JSONObject data = (JSONObject) parser.parse(reader);
+				reader.close();
+				return data;
+			} catch (IOException e) {
+				return null;
+			} catch (ParseException e) {
+				return null;
+			}
+			
+		}else{
+			return null;
 		}
 	}
 	
@@ -218,7 +251,7 @@ public class DataWorker {
 		}
 	}
 	
-	private static final String[][] defaultConfigValues = new String[][]{{"configVersion",""+configVersion},{"class","-"},{"schoolYear","-"},{"bakUser","-"},{"bakPsw","-"},{"lastSuplov","-"},{"showMapColors","true"},{"suplovDownloadTime","school"},{"suplovAutoDownload","true"}};
+	private static final String[][] defaultConfigValues = new String[][]{{"configVersion",""+configVersion},{"class","-"},{"schoolYear","-"},{"bakUser","-"},{"bakPsw","-"},{"lastSuplov","-"},{"showMapColors","true"},{"suplovDownloadTime","school"},{"suplovAutoDownload","true"},{"lastWeek","0"}};
 	
 	@SuppressWarnings("unchecked")
 	public JSONObject getDefaultConfig(){

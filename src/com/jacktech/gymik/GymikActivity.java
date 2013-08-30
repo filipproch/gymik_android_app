@@ -26,6 +26,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
 import com.jacktech.gymik.Adapters.NavigationAdapter;
+import com.jacktech.gymik.fragments.JidloFragment;
 import com.jacktech.gymik.fragments.MapFragment;
 import com.jacktech.gymik.fragments.MoodleFragment;
 import com.jacktech.gymik.fragments.NewsFragment;
@@ -103,40 +104,46 @@ public class GymikActivity extends AbstractActivity {
 
 	private List<NavigationItem> loadNavigation() {
 		ArrayList<NavigationItem> retList = new ArrayList<NavigationItem>();
-		retList.add(new NavigationItem(R.drawable.ic_news, "Suplování"));
-		retList.add(new NavigationItem(R.drawable.ic_rozvrh,"Rozvrh"));
-		retList.add(new NavigationItem(R.drawable.ic_map, "Mapa školy"));
+		retList.add(new NavigationItem(0, "Suplování"));
+		retList.add(new NavigationItem(0, "Mapa školy"));
 		retList.add(new NavigationItem(0, "Novinky"));
 		retList.add(new NavigationItem(0, "Moodle"));
 		retList.add(new NavigationItem());
-		retList.add(new NavigationItem(0, "Moje známky"));
+		retList.add(new NavigationItem(R.drawable.ic_znamky, "Moje známky"));
+		retList.add(new NavigationItem(R.drawable.ic_timetable,"Rozvrh"));
+		retList.add(new NavigationItem());
+		retList.add(new NavigationItem(0,"Jídelníček"));
 		return retList;
 	}
 
 	public void updateScreen(int screen){
 		Fragment fragment = null;
 		switch(screen){
-			case 1:
+			case 8:
+				fragment = new JidloFragment();
+				analyticsTracker.sendEvent("menu_item", "click", "jidlo", 1L);
+				break;
+			case 6:
 				fragment = new RozvrhFragment();
 				analyticsTracker.sendEvent("menu_item", "click", "rozvrh", 1L);
-				break;
+				return;
 			case 0:
 				fragment = new SuplovFragment();
 				analyticsTracker.sendEvent("menu_item", "click", "suplov", 1L);
 				break;
-			case 2:
+			case 1:
 				fragment = new MapFragment();
 				analyticsTracker.sendEvent("menu_item", "click", "mapa", 1L);
 				break;
-			case 3:
+			case 2:
 				fragment = new NewsFragment();
 				analyticsTracker.sendEvent("menu_item", "click", "news", 1L);
 				break;
-			case 6:
+			case 5:
 				fragment = new ZnamkyFragment();
 				analyticsTracker.sendEvent("menu_item", "click", "moje_znamky", 1L);
 				return;
-			case 4:
+			case 3:
 				fragment = new MoodleFragment();
 				//startMoodleApp();
 				analyticsTracker.sendEvent("menu_item", "click", "moodle", 1L);

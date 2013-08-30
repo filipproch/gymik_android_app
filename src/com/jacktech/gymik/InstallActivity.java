@@ -123,8 +123,7 @@ public class InstallActivity extends SherlockActivity{
 				BufferedReader reader = new BufferedReader(new InputStreamReader(con1.getInputStream()));
 				data[0] = (JSONObject) parser.parse(reader);
 				reader.close();
-				//stahovani rozvrhu
-				data[1] = null;//zatim neimplementovano
+				//stahovani rozvrhu nebude tady
 				//stahovani map
 				for(int i = 0;i<4;i++){
 					URL mapUrl = new URL("http://gymik.jacktech.cz/genmap.php?floor="+i+"&output=json");
@@ -133,6 +132,12 @@ public class InstallActivity extends SherlockActivity{
 					dw.writeMap((JSONObject)parser.parse(reader), i);
 					reader.close();
 				}
+				//stahovani jidelnicku
+				suplovUrl = new URL("http://gymik.jacktech.cz/jidlo_parser.php");
+				con1 = suplovUrl.openConnection();
+				reader = new BufferedReader(new InputStreamReader(con1.getInputStream()));
+				data[1] = (JSONObject) parser.parse(reader);
+				reader.close();
 				//stahovani novinek
 				RSSParser rssParser = new RSSParser("http://mikulasske.cz/index.php?option=com_content&view=featured&format=feed&type=rss");
 				data[2] = rssParser.parse();
@@ -150,7 +155,7 @@ public class InstallActivity extends SherlockActivity{
 				config.updateConfig("lastSuplov", System.currentTimeMillis()+"");
 				config.writeConfig();
 				dw.writeSuplovani((JSONObject)data[0]);
-				//dw.writeRozvrh(data[1]);
+				dw.writeJidlo((JSONObject)data[1]);
 				dw.writeNews((List<RSSFeed>)data[2]);
 				if(firstInstall)
 					startActivity(new Intent(InstallActivity.this, GymikActivity.class));

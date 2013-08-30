@@ -62,23 +62,38 @@ public class BackgroundService extends Service{
 						if(timeDownload.equals("midnight") && c.get(Calendar.HOUR_OF_DAY) == 0){
 							updateClass.downloadSuplov();
 							showSuplovDownloaded();
+							//updateClass.downloadZnamky();
 						}
 						if(timeDownload.equals("morning") && c.get(Calendar.HOUR_OF_DAY) == 6){
 							updateClass.downloadSuplov();
 							showSuplovDownloaded();
+							//updateClass.downloadZnamky();
 						}
 						if(timeDownload.equals("school") && c.get(Calendar.HOUR_OF_DAY) == 11){
 							updateClass.downloadSuplov();
 							showSuplovDownloaded();
+							//updateClass.downloadZnamky();
 						}
 						if(timeDownload.equals("afternoon") && c.get(Calendar.HOUR_OF_DAY) == 16){
 							updateClass.downloadSuplov();
 							showSuplovDownloaded();
+							//updateClass.downloadZnamky();
 						}
 					}
 				}
+				
+				Calendar cal = Calendar.getInstance();
+				cal.setTimeInMillis(Long.parseLong((String) config.getConfig("lastWeek")));
+				if(cal.get(Calendar.WEEK_OF_YEAR) != c.get(Calendar.WEEK_OF_YEAR)){
+					updateClass.downloadJidlo();
+					updateClass.downloadMap();
+					config.updateConfig("lastWeek", ""+System.currentTimeMillis());
+					config.writeConfig();
+					showJidloDownloaded();
+				}
+				
 				try {
-					Thread.sleep(1000*60*15);
+					Thread.sleep(1000*60*5);
 				} catch (InterruptedException e) {
 				}
 			}
@@ -95,6 +110,28 @@ public class BackgroundService extends Service{
 				        .setSmallIcon(R.drawable.ic_launcher)
 				        .setContentTitle("Staženo aktuální suplování")
 				        .setContentText("Právě bylo dokončeno stahování aktuálního suplování");
+				Intent resultIntent = new Intent(BackgroundService.this, InitActivity.class);
+				TaskStackBuilder taskStack = TaskStackBuilder.create(BackgroundService.this);
+				taskStack.addParentStack(InitActivity.class);
+				taskStack.addNextIntent(resultIntent);
+				PendingIntent resultPendingIntent = taskStack.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+				mBuilder.setContentIntent(resultPendingIntent);
+				NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				manager.notify(0, mBuilder.build());
+			}
+		});
+	}
+
+	protected void showJidloDownloaded() {
+		h.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				NotificationCompat.Builder mBuilder =
+						new NotificationCompat.Builder(BackgroundService.this)
+				        .setSmallIcon(R.drawable.ic_launcher)
+				        .setContentTitle("Stažen aktuální jídelníček")
+				        .setContentText("Právě bylo dokončeno stahování aktuálního jídelníčku");
 				Intent resultIntent = new Intent(BackgroundService.this, InitActivity.class);
 				TaskStackBuilder taskStack = TaskStackBuilder.create(BackgroundService.this);
 				taskStack.addParentStack(InitActivity.class);

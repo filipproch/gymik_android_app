@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.jacktech.gymik.bakalari.Predmet;
@@ -186,6 +187,83 @@ public class Adapters {
 					}
 				Spanned data = Html.fromHtml(textData, imgGetter, null);
 				text.setText(data);
+			}
+			return conv;	
+		}
+	}
+	
+	public static class JidloAdapter extends ArrayAdapter<JSONObject>{
+
+		private List<JSONObject> items;
+		private ImageGetter imgGetter = new ImageGetter(){
+
+			@Override
+			public Drawable getDrawable(String source) {
+				/*try {
+					return new ImageLoader(getContext()).execute(source).get();
+				} catch (InterruptedException e) {
+					Log.e("Adapters.ImageGetter", "InterruptedException, image loader failed");
+				} catch (ExecutionException e) {
+					Log.e("Adapters.ImageGetter", "ExecutionException, image loader failed");
+				}*/
+				return null;
+			}
+			
+		};
+		
+		public JidloAdapter(Context context, int textViewResourceId, List<JSONObject> list) {
+			super(context, textViewResourceId, list);
+			this.items = list;
+		}
+		
+		@Override
+		public View getView(int position, View convertedView, ViewGroup group){
+			View conv = convertedView;
+			boolean createdView = false;
+			if(conv == null){
+				LayoutInflater inflater = LayoutInflater.from(this.getContext());
+				conv = inflater.inflate(R.layout.jidlo_item, null);
+				createdView = true;
+			}
+			
+			if(items != null){
+				JSONObject jidloElement = items.get(position);
+				if(jidloElement != null){
+					TextView day = (TextView) conv.findViewById(R.id.jidlo_item_day);
+					TextView polevka = (TextView) conv.findViewById(R.id.jidlo_item_polevka);
+					TextView menu1 = (TextView) conv.findViewById(R.id.jidlo_item_menu1);
+					TextView menu2 = (TextView) conv.findViewById(R.id.jidlo_item_menu2);
+					TextView menu3 = (TextView) conv.findViewById(R.id.jidlo_item_menu3);
+					TextView desert = (TextView) conv.findViewById(R.id.jidlo_item_desert);
+					
+					day.setText((CharSequence) jidloElement.get("day"));
+					JSONArray dat = (JSONArray) jidloElement.get("data");
+					for(Object o : dat){
+						JSONObject ob = (JSONObject) o;
+						String typ = (String) ob.get("typ");
+						String name = (String) ob.get("name");
+						if(polevka != null && typ.contains("Polévka"))
+							polevka.setText(typ+" - "+name);
+						if(menu1 != null && typ.contains("Menu 1"))
+							menu1.setText(typ+" - "+name);
+						if(menu2 != null && typ.contains("Menu 2"))
+							menu2.setText(typ+" - "+name);
+						if(menu3 != null && typ.contains("Menu 3"))
+							menu3.setText(typ+" - "+name);
+						if(desert != null && typ.contains("Zákusek"))
+							desert.setText(typ+" - "+name);
+					}
+					if(polevka != null && polevka.length() <= 0 && createdView)
+						((LinearLayout)polevka.getParent()).removeView(polevka);
+					if(menu1 != null && menu1.length() <= 0 && createdView)
+						((LinearLayout)menu1.getParent()).removeView(menu1);
+					if(menu2 != null && menu2.length() <= 0 && createdView)
+						((LinearLayout)menu2.getParent()).removeView(menu2);
+					if(menu3 != null && menu3.length() <= 0 && createdView)
+						((LinearLayout)menu3.getParent()).removeView(menu3);
+					if(desert != null && desert.length() <= 0 && createdView)
+						((LinearLayout)desert.getParent()).removeView(desert);
+				}
 			}
 			return conv;	
 		}
