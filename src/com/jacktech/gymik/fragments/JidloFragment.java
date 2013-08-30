@@ -29,7 +29,7 @@ public class JidloFragment extends SherlockFragment implements JidloListFragment
 			rootView = inflater.inflate(R.layout.jidlo_layout,container, false);
 	    } catch (Exception e) {
 	    }
-		jidloFragment = (JidloListDetailFragment) getSherlockActivity().getSupportFragmentManager().findFragmentById(R.id.item_list);
+		jidloFragment = (JidloListDetailFragment) getSherlockActivity().getSupportFragmentManager().findFragmentById(R.id.jidlo_item_list);
 		if(rootView.findViewById(R.id.jidlo_list_container) != null){
 			JidloListFragment fragment = new JidloListFragment(this);
 			getSherlockActivity().getSupportFragmentManager().beginTransaction().replace(R.id.jidlo_list_container, fragment).commit();

@@ -19,7 +19,7 @@ import android.content.Context;
 import android.os.Environment;
 
 public class DataWorker {
-	public static final int configVersion = 4;
+	public static final int configVersion = 5;
 	private static String CONFIG_FILE_NAME = "config.data";
 	private static String NEWS_FILE_NAME = "news.data";
 	private static String ROZVRH_FILE_NAME = "rozvrh.data";

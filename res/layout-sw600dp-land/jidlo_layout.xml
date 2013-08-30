@@ -16,7 +16,7 @@
         android:layout_weight="1" />
     
     <fragment
-        android:id="@+id/item_list"
+        android:id="@+id/jidlo_item_list"
         android:name="com.jacktech.gymik.fragments.JidloListDetailFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"

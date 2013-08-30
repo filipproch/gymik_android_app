@@ -43,6 +43,7 @@ public class GymikActivity extends AbstractActivity {
 	private List<NavigationItem> mNavigationArray;
 	private Tracker analyticsTracker;
 	private int beforeSelected = 0;
+	private Fragment fragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +118,11 @@ public class GymikActivity extends AbstractActivity {
 	}
 
 	public void updateScreen(int screen){
-		Fragment fragment = null;
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		
+		if(fragment != null)
+			fragmentManager.beginTransaction().remove(fragment);
+		
 		switch(screen){
 			case 8:
 				fragment = new JidloFragment();
@@ -151,7 +156,6 @@ public class GymikActivity extends AbstractActivity {
 			default:
 				return;
 		}
-		FragmentManager fragmentManager = getSupportFragmentManager();
 	    fragmentManager.beginTransaction()
 	                   .replace(R.id.content_frame, fragment)
 	                   .commit();

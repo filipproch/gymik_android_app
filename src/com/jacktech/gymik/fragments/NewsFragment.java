@@ -28,7 +28,7 @@ public class NewsFragment extends SherlockFragment implements NewsListFragment.I
 			rootView = inflater.inflate(R.layout.news_layout,container, false);
 	    } catch (Exception e) {
 	    }
-		newsFragment = (NewsListDetailFragment) getSherlockActivity().getSupportFragmentManager().findFragmentById(R.id.item_list);
+		newsFragment = (NewsListDetailFragment) getSherlockActivity().getSupportFragmentManager().findFragmentById(R.id.news_item_list);
 		if(rootView.findViewById(R.id.news_list_container) != null){
 			NewsListFragment fragment = new NewsListFragment(this);
 			getSherlockActivity().getSupportFragmentManager().beginTransaction().replace(R.id.news_list_container, fragment).commit();
