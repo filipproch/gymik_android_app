@@ -10,11 +10,11 @@ TODO
 - ~~mapa skoly~~, chybi interaktivita jakou ma webova verze http://gymik.jacktech.cz/map/
 - ~~novinky z RSS kanalu skoly~~
 - automaticke aktualizace novinek, ~~suplovani~~
-- rozvrh (chybi script na serveru)
+- ~~rozvrh~~
 - ~~funkcni nastaveni~~
 - ~~widget~~
-- bakalari - pripravuje se implementace, aktualne odkaz na jinou aplikaci
-- moodle - bude odkaz na oficialni aplikaci moodle
+- bakalari - pripravuje se implementace
+- ~~moodle~~ ,bude odkaz na oficialni aplikaci moodle
 
 Licence
 -----------------
