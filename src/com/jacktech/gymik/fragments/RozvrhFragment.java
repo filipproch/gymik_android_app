@@ -1,11 +1,10 @@
 package com.jacktech.gymik.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.webkit.WebView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.jacktech.gymik.GymikActivity;
@@ -20,77 +19,16 @@ public class RozvrhFragment extends SherlockFragment{
 		super.onCreate(savedInstanceState);
 	}
 	
-	public void updateRozvrh(int i) {
-	}
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.rozvrh_layout,container, false);
-		final Button po = (Button) rootView.findViewById(R.id.rozvrhPo);
-		final Button ut = (Button) rootView.findViewById(R.id.rozvrhUt);
-		final Button st = (Button) rootView.findViewById(R.id.rozvrhSt);
-		final Button ct = (Button) rootView.findViewById(R.id.rozvrhCt);
-		final Button pa = (Button) rootView.findViewById(R.id.rozvrhPa);
-		po.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				updateRozvrh(0);
-				po.setBackgroundColor(Color.parseColor("#555555"));
-				ut.setBackgroundColor(Color.parseColor("#333333"));
-				st.setBackgroundColor(Color.parseColor("#333333"));
-				ct.setBackgroundColor(Color.parseColor("#333333"));
-				pa.setBackgroundColor(Color.parseColor("#333333"));
-			}
-		});
-		ut.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				updateRozvrh(1);
-				po.setBackgroundColor(Color.parseColor("#333333"));
-				ut.setBackgroundColor(Color.parseColor("#555555"));
-				st.setBackgroundColor(Color.parseColor("#333333"));
-				ct.setBackgroundColor(Color.parseColor("#333333"));
-				pa.setBackgroundColor(Color.parseColor("#333333"));
-			}
-		});
-		st.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				updateRozvrh(2);
-				po.setBackgroundColor(Color.parseColor("#333333"));
-				ut.setBackgroundColor(Color.parseColor("#333333"));
-				st.setBackgroundColor(Color.parseColor("#555555"));
-				ct.setBackgroundColor(Color.parseColor("#333333"));
-				pa.setBackgroundColor(Color.parseColor("#333333"));
-			}
-		});
-		ct.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				updateRozvrh(3);
-				po.setBackgroundColor(Color.parseColor("#333333"));
-				ut.setBackgroundColor(Color.parseColor("#333333"));
-				st.setBackgroundColor(Color.parseColor("#333333"));
-				ct.setBackgroundColor(Color.parseColor("#555555"));
-				pa.setBackgroundColor(Color.parseColor("#333333"));
-			}
-		});
-		pa.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				updateRozvrh(4);
-				po.setBackgroundColor(Color.parseColor("#333333"));
-				ut.setBackgroundColor(Color.parseColor("#333333"));
-				st.setBackgroundColor(Color.parseColor("#333333"));
-				ct.setBackgroundColor(Color.parseColor("#333333"));
-				pa.setBackgroundColor(Color.parseColor("#555555"));
-			}
-		});
+		GymikActivity ac = (GymikActivity) getActivity();
+		WebView view = (WebView) rootView.findViewById(R.id.rozvrh_web_view);
+		String rozvrh = ac.dw.getRozvrh();
+		if(rozvrh != null)
+			view.loadDataWithBaseURL(null, "<style>"+getString(R.string.rozvrhStyle)+"</style>"+rozvrh, "text/html", "utf-8", null);
+		else
+			view.loadDataWithBaseURL(null,getString(R.string.missingRozvrh), "text/html", "utf-8", null);
 		return rootView;
 	}
 }

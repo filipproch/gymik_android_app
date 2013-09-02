@@ -32,8 +32,17 @@
     <Spinner 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/customClassName"
         android:layout_below="@+id/pickClassText"
         android:id="@+id/pickClassSpinner"/>
+    
+    <Button 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pickClassText"
+        android:layout_alignParentRight="true"
+        android:id="@+id/customClassName"
+        android:text="@string/customClassName"/>
     
     <ProgressBar
         android:id="@+id/progressBar1"

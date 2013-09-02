@@ -20,8 +20,8 @@ public class MoodleFragment extends SherlockFragment{
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.bakalari_layout,container, false);
-		WebView web2 = (WebView) rootView.findViewById(R.id.bakalariWebView);
+		rootView = inflater.inflate(R.layout.moodle_layout,container, false);
+		WebView web2 = (WebView) rootView.findViewById(R.id.moodleWebView);
 		web2.loadUrl("http://esf.mikulasske.cz/");
 		return rootView;
 	}

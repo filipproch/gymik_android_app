@@ -14,10 +14,6 @@
     	    <Preference
     	        android:title="Změnit třídu"
     	        android:key="changeClass"/>
-    	    <Preference
-    	        android:enabled="false"
-    	        android:title="Aktualizovat rozvrh"
-    	        android:key="updateRozvrh"/>
     	</PreferenceCategory>
     	<PreferenceCategory
     	    android:title="Suplování">
@@ -51,8 +47,10 @@
         <PreferenceCategory
             android:title="Bakaláři">
             <Preference
-                android:enabled="false"
 	            android:title="Nastavit přihlašování"
 	            android:key="setupBakalari" />
+            <Preference
+    	        android:title="Aktualizovat rozvrh/známky"
+    	        android:key="updateRozvrh"/>
       	</PreferenceCategory>
 </PreferenceScreen>

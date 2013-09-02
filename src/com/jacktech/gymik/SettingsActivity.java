@@ -3,27 +3,34 @@ package com.jacktech.gymik;
 import java.util.Calendar;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class SettingsActivity extends SherlockPreferenceActivity{
+public class SettingsActivity extends SherlockPreferenceActivity implements UpdateClass.OnCompletitionListener{
 
 	private Config config;
 	private UpdateClass updater;
+	private Handler h;
+	private ProgressDialog progressDialog;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceBundle){
@@ -33,6 +40,10 @@ public class SettingsActivity extends SherlockPreferenceActivity{
 		DataWorker dw = new DataWorker(this);
 		config = new Config(dw.getConfig(),dw);
 		updater = new UpdateClass(dw, config, this);
+		updater.setOnCompletitionListener(this);
+		progressDialog = new ProgressDialog(this);
+		progressDialog.setCancelable(false);
+		h = new Handler();
 		
 		Preference aboutPreference = (Preference) findPreference("aboutApp");
 		aboutPreference.setOnPreferenceClickListener(new OnPreferenceClickListener(){
@@ -100,7 +111,62 @@ public class SettingsActivity extends SherlockPreferenceActivity{
 			
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
+				progressDialog.setMessage("Stahuji suplování...");
+				progressDialog.show();
 				updater.downloadSuplov();
+				return true;
+			}
+		});
+		
+		Preference updateRozvrh = (Preference) findPreference("updateRozvrh");
+		updateRozvrh.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				progressDialog.setMessage("Stahuji známky/rozvrh...");
+				progressDialog.show();
+				updater.downloadBakalari();
+				return true;
+			}
+		});
+		
+		Preference setupBakalari = (Preference) findPreference("setupBakalari");
+		setupBakalari.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				h.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+						builder.setTitle("Nastavit přihlašování");
+						View v = getLayoutInflater().inflate(R.layout.login_layout, null);
+						final EditText newBakUser = (EditText) v.findViewById(R.id.setupBakUser);
+						newBakUser.setText((CharSequence) config.getConfig("bakUser"));
+						final EditText newBakPsw = (EditText) v.findViewById(R.id.setupBakPsw);
+						newBakPsw.setText((CharSequence) config.getConfig("bakPsw"));
+						builder.setView(v);
+						builder.setPositiveButton(R.string.dialogOk, new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								config.updateConfig("bakUser", newBakUser.getText().toString());
+								config.updateConfig("bakPsw", newBakPsw.getText().toString());
+								config.writeConfig();
+								dialog.dismiss();
+							}
+						});
+						builder.setNegativeButton(R.string.dialogClose, new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						});
+						builder.show();
+					}
+				});
 				return true;
 			}
 		});
@@ -110,6 +176,8 @@ public class SettingsActivity extends SherlockPreferenceActivity{
 			
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
+				progressDialog.setMessage("Stahuji mapu...");
+				progressDialog.show();
 				updater.downloadMap();
 				return true;
 			}
@@ -179,6 +247,26 @@ public class SettingsActivity extends SherlockPreferenceActivity{
 		if(value.equals("afternoon"))
 			return "Odpoledne";
 		return "";
+	}
+
+	@Override
+	public void onComplete(boolean success) {
+		progressDialog.dismiss();
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Stahování dokončeno");
+		if(success){
+			builder.setMessage("Stahování bylo úspěšně dokončeno");
+		}else{
+			builder.setMessage("Stahování bylo neúspěšné");
+		}
+		builder.setPositiveButton(R.string.dialogOk, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		builder.show();
 	}
 	
 }

@@ -2,69 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    <LinearLayout 
+    <WebView 
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:weightSum="10"
-        android:id="@+id/rozvrh_tabs"
-        android:orientation="horizontal">
-        <Button 
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="@string/pondeli"
-           	android:padding="4dp"
-           	android:background="#333333"
-           	android:textColor="#ffffff"
-           	android:id="@+id/rozvrhPo"/>
-        <Button 
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="@string/utery"
-           	android:padding="4dp"
-           	android:background="#333333"
-           	android:textColor="#ffffff"
-           	android:id="@+id/rozvrhUt"/>
-        <Button 
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="@string/streda"
-           	android:padding="4dp"
-           	android:background="#333333"
-           	android:textColor="#ffffff"
-           	android:id="@+id/rozvrhSt"/>
-        <Button 
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="@string/ctvrtek"
-           	android:padding="4dp"
-           	android:background="#333333"
-           	android:textColor="#ffffff"
-           	android:id="@+id/rozvrhCt"/>
-        <Button 
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="@string/patek"
-           	android:padding="4dp"
-           	android:background="#333333"
-           	android:textColor="#ffffff"
-           	android:id="@+id/rozvrhPa"/>
-    </LinearLayout>
-    <TextView android:text="Připravuje se"
-        android:textSize="32sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rozvrh_tabs"/>
-    <RelativeLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rozvrh_tabs">
-        <ListView android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/rozvrhList">
-        </ListView>
-    </RelativeLayout>
+        android:id="@+id/rozvrh_web_view"/>
 </RelativeLayout>

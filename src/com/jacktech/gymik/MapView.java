@@ -42,6 +42,7 @@ private static final int INVALID_POINTER_ID = -1;
     private JSONObject map;
     private Paint paint;
     private int coordsScaleFactor = 20;
+    private boolean showRoomNames = false;
     
     private DataWorker dataWorker;
     
@@ -70,7 +71,7 @@ private static final int INVALID_POINTER_ID = -1;
     }
     
     public void updateLevel(int level){
-    	Log.i("DEBUG", "changing map floor : "+level);
+    	Log.i("MapView.updateLevel", "changing map floor : "+level);
     	this.currentLevel = level;
     	readMap();
     	loadMap();
@@ -81,9 +82,13 @@ private static final int INVALID_POINTER_ID = -1;
     	this.showColors = show;
     }
     
+    public void setShowRoomNames(boolean show){
+    	this.showRoomNames = show;
+    }
+    
     private void readMap(){
     	map = dataWorker.getMap(currentLevel);
-		Log.i("DEBUG", "Map loaded");
+		Log.i("MapView.readMap", "Map loaded");
     }
     
     private void loadMap(){
@@ -110,11 +115,14 @@ private static final int INVALID_POINTER_ID = -1;
 		    	for(Object textO : texts){
 		    		JSONObject room  = (JSONObject) textO;
 		    		JSONArray pos = (JSONArray) room.get("position");
-		    		drawTexts.add(new Text(((Number)pos.get(0)).floatValue(), ((Number)pos.get(1)).floatValue(), (String)room.get("text")));
+		    		if(showRoomNames || room.get("room") == null)
+		    			drawTexts.add(new Text(((Number)pos.get(0)).floatValue(), ((Number)pos.get(1)).floatValue(), (String)room.get("text")));
+		    		else
+		    			drawTexts.add(new Text(((Number)pos.get(0)).floatValue(), ((Number)pos.get(1)).floatValue(), (String)room.get("room")));
 		    	}
-	    	}
+		    }
     	}else{
-    		Log.i("DEBUG","unable to read map data");
+    		Log.i("MapView.loadMap","unable to read map data");
     	}
     }
 
@@ -145,9 +153,13 @@ private static final int INVALID_POINTER_ID = -1;
                 final float dx = x - mLastTouchX;
                 final float dy = y - mLastTouchY;
 
-                mPosX += dx;
-                mPosY += dy;
+                //if(mPosX+dx >= 60 && mPosX+dx <= -50*coordsScaleFactor)
+                	mPosX += dx;
+                //if(mPosY+dy >= 60 && mPosY+dy <= -40*coordsScaleFactor)
+                	mPosY += dy;
 
+                Log.i("MapView.move", "mPosX:"+mPosX+", mPosY:"+mPosY);
+                	
                 invalidate();
             }
 

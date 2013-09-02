@@ -19,12 +19,13 @@ import android.content.Context;
 import android.os.Environment;
 
 public class DataWorker {
-	public static final int configVersion = 5;
+	public static final int configVersion = 7;
 	private static String CONFIG_FILE_NAME = "config.data";
 	private static String NEWS_FILE_NAME = "news.data";
 	private static String ROZVRH_FILE_NAME = "rozvrh.data";
 	private static String SUPLOV_FILE_NAME = "suplov.data";
 	private static String JIDLO_FILE_NAME = "jidlo.data";
+	private static String ZNAMKY_FILE_NAME = "znamky.data";
 	private static String MAP_FOLDER = "map/";
 	private Context activity;
 
@@ -134,12 +135,45 @@ public class DataWorker {
 		}
 	}
 	
-	public void writeRozvrh(JSONObject rozvrh){
+	public void writeZnamky(JSONObject znamky){
+		if(mExternalStorageWriteable){
+			File dataDir = activity.getExternalFilesDir(null);
+			try {
+				FileWriter writer = new FileWriter(dataDir.getAbsolutePath()+"/"+ZNAMKY_FILE_NAME);
+				znamky.writeJSONString(writer);
+				writer.close();
+			} catch (IOException e) {
+			}
+		}
+	}
+	
+	public JSONObject getZnamky(){
+		if(mExternalStorageAvailable){
+			File dataDir = activity.getExternalFilesDir(null);
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(dataDir.getAbsolutePath()+"/"+ZNAMKY_FILE_NAME));
+				JSONParser parser = new JSONParser();
+				JSONObject data = (JSONObject) parser.parse(reader);
+				reader.close();
+				return data;
+			} catch (IOException e) {
+				return null;
+			} catch (ParseException e) {
+				return null;
+			}
+			
+		}else{
+			return null;
+		}
+	}
+	
+	public void writeRozvrh(String string){
 		if(mExternalStorageWriteable){
 			File dataDir = activity.getExternalFilesDir(null);
 			try {
 				FileWriter writer = new FileWriter(dataDir.getAbsolutePath()+"/"+ROZVRH_FILE_NAME);
-				rozvrh.writeJSONString(writer);
+				writer.append(string);
+				writer.flush();
 				writer.close();
 			} catch (IOException e) {
 			}
@@ -190,18 +224,18 @@ public class DataWorker {
 		}
 	}
 	
-	public JSONObject getRozvrh(){
+	public String getRozvrh(){
 		if(mExternalStorageAvailable){
 			File dataDir = activity.getExternalFilesDir(null);
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(dataDir.getAbsolutePath()+"/"+ROZVRH_FILE_NAME));
-				JSONParser parser = new JSONParser();
-				JSONObject data = (JSONObject) parser.parse(reader);
+				StringBuilder sb = new StringBuilder();
+				String s;
+				while((s = reader.readLine())!=null)
+					sb.append(s+"\n");
 				reader.close();
-				return data;
+				return sb.toString();
 			} catch (IOException e) {
-				return null;
-			} catch (ParseException e) {
 				return null;
 			}
 			
@@ -251,7 +285,7 @@ public class DataWorker {
 		}
 	}
 	
-	private static final String[][] defaultConfigValues = new String[][]{{"configVersion",""+configVersion},{"class","-"},{"schoolYear","-"},{"bakUser","-"},{"bakPsw","-"},{"lastSuplov","-"},{"showMapColors","true"},{"suplovDownloadTime","school"},{"suplovAutoDownload","true"},{"lastWeek","0"}};
+	private static final String[][] defaultConfigValues = new String[][]{{"configVersion",""+configVersion},{"class","-"},{"schoolYear","-"},{"bakUser","-"},{"bakPsw","-"},{"lastSuplov","-"},{"showMapColors","true"},{"suplovDownloadTime","school"},{"suplovAutoDownload","true"},{"lastWeek","0"},{"showMapNames","false"},{"showUpdates","0"}};
 	
 	@SuppressWarnings("unchecked")
 	public JSONObject getDefaultConfig(){

@@ -61,21 +61,25 @@ public class BackgroundService extends Service{
 					if(cal.get(Calendar.DAY_OF_YEAR) != c.get(Calendar.DAY_OF_YEAR)){
 						if(timeDownload.equals("midnight") && c.get(Calendar.HOUR_OF_DAY) == 0){
 							updateClass.downloadSuplov();
+							updateClass.downloadBakalari();
 							showSuplovDownloaded();
 							//updateClass.downloadZnamky();
 						}
 						if(timeDownload.equals("morning") && c.get(Calendar.HOUR_OF_DAY) == 6){
 							updateClass.downloadSuplov();
+							updateClass.downloadBakalari();
 							showSuplovDownloaded();
 							//updateClass.downloadZnamky();
 						}
 						if(timeDownload.equals("school") && c.get(Calendar.HOUR_OF_DAY) == 11){
 							updateClass.downloadSuplov();
+							updateClass.downloadBakalari();
 							showSuplovDownloaded();
 							//updateClass.downloadZnamky();
 						}
 						if(timeDownload.equals("afternoon") && c.get(Calendar.HOUR_OF_DAY) == 16){
 							updateClass.downloadSuplov();
+							updateClass.downloadBakalari();
 							showSuplovDownloaded();
 							//updateClass.downloadZnamky();
 						}
@@ -87,6 +91,7 @@ public class BackgroundService extends Service{
 				if(cal.get(Calendar.WEEK_OF_YEAR) != c.get(Calendar.WEEK_OF_YEAR)){
 					updateClass.downloadJidlo();
 					updateClass.downloadMap();
+					updateClass.downloadNews();
 					config.updateConfig("lastWeek", ""+System.currentTimeMillis());
 					config.writeConfig();
 					showJidloDownloaded();

@@ -5,31 +5,29 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.google.analytics.tracking.android.EasyTracker;
-
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class InstallActivity extends SherlockActivity{
 
@@ -38,6 +36,8 @@ public class InstallActivity extends SherlockActivity{
 	private int stage = 0;
 	private ProgressBar downloadingClassesBar;
 	private boolean firstInstall = true;
+	private String className =null;
+	private Handler h;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -45,65 +45,95 @@ public class InstallActivity extends SherlockActivity{
 		if(getIntent().hasExtra("install"))
 			firstInstall = false;
 		setContentView(R.layout.install_layout);
-		downloadingClassesBar = (ProgressBar) findViewById(R.id.progressBar1);
 		dw = new DataWorker(this);
 		config = new Config(dw.getConfig(), dw);
-		new ClassListDownloader().execute();
-	}
-	
-	class ClassListDownloader extends AsyncTask<Void, Void, JSONObject>{
-
-		@Override
-		protected JSONObject doInBackground(Void... params) {
-			try{
-				URL classListURL = new URL("http://gymik.jacktech.cz/class_parser.php");
-				URLConnection connection = classListURL.openConnection();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				StringBuilder data = new StringBuilder();
-				String line;
-				while((line = reader.readLine()) != null){
-					data.append(line);
-				}
-				reader.close();
-				JSONParser parser = new JSONParser();
-				JSONObject classes = (JSONObject) parser.parse(data.toString());
-				return classes;
-			}catch(IOException e){
-				Log.i("DEBUG", "Error while downloading class list > "+e.getLocalizedMessage());
-				return null;
-			} catch (ParseException e) {
-				Log.i("DEBUG", "Error while parsing classes data > "+e.getLocalizedMessage()+", "+e.getPosition());
-				return null;
+		h = new Handler();
+		stage = 1;
+		ArrayList<String> classes = new ArrayList<String>();
+		for(int i = 1;i<8;i++){
+			for(int j = 0;j<5;j++){
+				classes.add(i+"."+getChar(j));
 			}
 		}
-		
-		@Override
-		protected void onPostExecute(final JSONObject data){
-			if(data != null){
-				stage = 1;
-				setContentView(R.layout.install_layout);
-				JSONArray classes = (JSONArray)data.get("data");
-				downloadingClassesBar.setVisibility(View.INVISIBLE);
-				final Spinner sp = (Spinner) findViewById(R.id.pickClassSpinner);
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(InstallActivity.this,android.R.layout.simple_spinner_item,classes);
-				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				sp.setAdapter(adapter);
-				Button cont = (Button) findViewById(R.id.installButton);
-				cont.setOnClickListener(new View.OnClickListener() {
+		final Spinner sp = (Spinner) findViewById(R.id.pickClassSpinner);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(InstallActivity.this,android.R.layout.simple_spinner_item,classes);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		sp.setAdapter(adapter);
+		Button customClass = (Button) findViewById(R.id.customClassName);
+		customClass.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				h.post(new Runnable() {
 					
 					@Override
-					public void onClick(View v) {
-						config.updateConfig("schoolYear", data.get("year"));
-						config.updateConfig("class", sp.getSelectedItem());
-						downloadSuplovAndRozvrh();
+					public void run() {
+						AlertDialog.Builder builder = new AlertDialog.Builder(InstallActivity.this);
+						final EditText input = new EditText(InstallActivity.this);
+						LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+						        LinearLayout.LayoutParams.MATCH_PARENT,
+						        LinearLayout.LayoutParams.MATCH_PARENT);
+						input.setLayoutParams(lp);
+						builder.setView(input);
+						builder.setTitle("Zadejte název třídy");
+						builder.setMessage("Název musí odpovídat označení na suplování, jinak aplikace nebude fungovat správně");
+						builder.setPositiveButton(R.string.dialogOk, new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								className = input.getText().toString().toUpperCase();
+								dialog.dismiss();
+							}
+						});
+						builder.setNegativeButton(R.string.dialogClose, new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						});
+						builder.show();
 					}
 				});
-			}else{
-				showDownloadErrorDialog();
 			}
-		}
+		});
+		Button cont = (Button) findViewById(R.id.installButton);
+		cont.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Calendar c = Calendar.getInstance();
+				String schoolYear;
+				if(c.get(Calendar.MONTH)<9){
+					schoolYear = String.valueOf(c.get(Calendar.YEAR)-1).substring(2)+"/"+String.valueOf(c.get(Calendar.YEAR)).substring(2);
+				}else
+					schoolYear = String.valueOf(c.get(Calendar.YEAR)).substring(2)+"/"+String.valueOf(c.get(Calendar.YEAR)+1).substring(2);
+				config.updateConfig("schoolYear", schoolYear);
+				if(className == null)
+					config.updateConfig("class", sp.getSelectedItem());
+				else
+					config.updateConfig("class", className);
+				downloadSuplovAndRozvrh();
+			}
+		});
 	}
 	
+	private char getChar(int j) {
+		switch (j) {
+			case 0:
+				return 'A';
+			case 1:
+				return 'B';
+			case 2:
+				return 'C';
+			case 3:
+				return 'D';
+			case 4:
+				return 'E';
+		}
+		return '-';
+	}
+
 	protected void downloadSuplovAndRozvrh() {
 		stage = 2;
 		setContentView(R.layout.install_download_layout);

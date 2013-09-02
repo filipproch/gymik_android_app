@@ -131,7 +131,7 @@ public class GymikActivity extends AbstractActivity {
 			case 6:
 				fragment = new RozvrhFragment();
 				analyticsTracker.sendEvent("menu_item", "click", "rozvrh", 1L);
-				return;
+				break;
 			case 0:
 				fragment = new SuplovFragment();
 				analyticsTracker.sendEvent("menu_item", "click", "suplov", 1L);
