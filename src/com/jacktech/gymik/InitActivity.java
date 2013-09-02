@@ -50,6 +50,7 @@ public class InitActivity extends Activity{
 					}
 					if(pInfo != null && Integer.parseInt((String) config.getConfig("showUpdates")) != pInfo.versionCode){
 		            	config.updateConfig("showUpdates", ""+pInfo.versionCode);
+		            	config.writeConfig();
 						showVersionDetails();
 					}else{
 						startActivity(new Intent(this,GymikActivity.class));
